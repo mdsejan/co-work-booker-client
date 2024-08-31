@@ -1,30 +1,66 @@
-# React + TypeScript + Vite
+# CoWorkBooker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Live URL: &nbsp; &nbsp; [deploy.soon](https://#/)
 
-Currently, two official plugins are available:
+## Description:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+CoWorkBooker is a web application designed to manage room reservations for co-working spaces. It provides a streamlined booking process for both administrators and users, ensuring efficient management of meeting rooms and time slots.
 
-## Expanding the ESLint configuration
+### Admin Actions:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Administrators have comprehensive control over the co-working space inventory:
 
-- Configure the top-level `parserOptions` property like this:
+- Create, update, and delete rooms with details such as name, number, floor, capacity, price per slot, and amenities.
+- Manage time slots for each room, setting dates, start times, and end times to ensure availability.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### User Interactions:
+
+Users can effortlessly book rooms for their meetings:
+
+- Select available time slots on desired dates.
+- Input booking details including room selection and preferred slots.
+- Automatically calculate total costs based on slots chosen and prices per slot.
+- Receive real-time updates on room and slot availability to avoid conflicts.
+
+## Features
+
+- **User Management**: Enable users to sign up, log in, and manage their accounts securely.
+- **Room Management**: Allow admins to add, update, delete, and view co-working rooms.
+- **Slot Management**: Enable admins to create, update, and delete time slots for room bookings.
+- **Booking Management**: Facilitate users in creating, viewing, and canceling bookings.
+- **Availability Check**: Provide endpoints to check slot availability for specific dates.
+- **Error Handling**: Implement robust error handling middleware for consistent and informative responses.
+- **Authentication & Authorization**: Secure API endpoints using JWT-based authentication and role-based authorization.
+- **Data Validation**: Ensure data integrity and consistency with Zod for input validation.
+
+## Getting Started
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/mdsejan/co-work-booker-client.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd CoWorkBooker
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+### Running the Application
+
+Start the server:
+
+```bash
+npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+The server will start running at `http://localhost:5173/`.
