@@ -1,8 +1,10 @@
 import MainLayout from "@/components/Layouts/MainLayouts";
+import AboutUs from "@/pages/AboutUs";
 import Home from "@/pages/Home/Home";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 import NotFound from "@/pages/shared/NotFound";
+import TermsOfService from "@/pages/TermsOfService";
 import { createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
   {
@@ -14,8 +16,16 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/about-us",
+        element: <AboutUs />,
+      },
+      {
         path: "/privacy-policy",
         element: <PrivacyPolicy />,
+      },
+      {
+        path: "/terms-of-service",
+        element: <TermsOfService />,
       },
       {
         path: "*",
