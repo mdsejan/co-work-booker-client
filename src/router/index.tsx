@@ -1,5 +1,6 @@
 import MainLayout from "@/components/Layouts/MainLayouts";
 import Home from "@/pages/Home/Home";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 import NotFound from "@/pages/shared/NotFound";
 import { createBrowserRouter } from "react-router-dom";
@@ -12,7 +13,10 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />,
+      },
       {
         path: "*",
         element: <NotFound />,
