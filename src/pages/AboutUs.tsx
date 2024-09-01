@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import team1 from "/src/assets/teamMember1.jpg";
 import team2 from "/src/assets/teamMember2.jpg";
@@ -8,6 +8,9 @@ import team5 from "/src/assets/teamMember2.jpg";
 import herobg from "/src/assets/hero-bg.jpg";
 
 const AboutUs: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="bg-white py-16">
       {/* Hero Section */}

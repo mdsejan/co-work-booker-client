@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const PrivacyPolicy: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="bg-white py-12">
       <div className="max-w-screen-2xl mx-auto px-6 sm:px-8">
