@@ -1,5 +1,6 @@
 import MainLayout from "@/components/Layouts/MainLayouts";
 import AboutUs from "@/pages/AboutUs";
+import ContactUsPage from "@/pages/ContactUsPage";
 import Home from "@/pages/Home/Home";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/about-us",
         element: <AboutUs />,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUsPage />,
       },
       {
         path: "/privacy-policy",
