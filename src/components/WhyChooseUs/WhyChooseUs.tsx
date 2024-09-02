@@ -13,7 +13,7 @@ const WhyChooseUs: React.FC = () => {
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title Section */}
         <div className="text-center mb-12">
-          <div className="inline-block bg-[#EEE6F4] rounded-lg px-6 py-2">
+          <div className="inline-block bg-[#EEE6F4] rounded-full px-6 py-2">
             <h2 className="text-3xl font-extrabold text-[#663593]">
               Why Choose Us?
             </h2>

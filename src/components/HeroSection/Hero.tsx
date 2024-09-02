@@ -23,7 +23,7 @@ const Hero: React.FC = () => {
         </p>
         <Link
           to="/meeting-rooms"
-          className="bg-violet-800 hover:bg-violet-900 text-white font-semibold py-3 px-8 rounded-full"
+          className="bg-[#2499EF] hover:bg-[#0E73BE] text-white font-semibold py-3 px-14 rounded-full"
         >
           Book Now
         </Link>
