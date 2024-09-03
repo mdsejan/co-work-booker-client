@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 
 const ContactUsPage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <section className="bg-white py-16 px-4">
       <div className="max-w-screen-2xl mx-auto">

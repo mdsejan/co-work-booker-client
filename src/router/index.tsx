@@ -2,6 +2,7 @@ import MainLayout from "@/components/Layouts/MainLayouts";
 import AboutUs from "@/pages/AboutUs";
 import ContactUsPage from "@/pages/ContactUsPage";
 import Home from "@/pages/Home/Home";
+import MeetingRooms from "@/pages/MeetingRooms/MeetingRooms";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 import NotFound from "@/pages/shared/NotFound";
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/about-us",
         element: <AboutUs />,
+      },
+      {
+        path: "/meeting-rooms",
+        element: <MeetingRooms />,
       },
       {
         path: "/contact-us",

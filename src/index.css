@@ -7,3 +7,8 @@
 * {
   font-family: "Inter", sans-serif;
 }
+
+.more-btn:hover .arrow {
+  transform: translateX(5px);
+  transition: transform 0.3s;
+}
