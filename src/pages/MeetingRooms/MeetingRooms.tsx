@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 // Demo JSON Data
 const roomsData = [
@@ -169,12 +170,14 @@ const MeetingRooms: React.FC = () => {
                 </div>
 
                 {/* See Details Button */}
-                <motion.button className="mt-4 bg-[#14141E] text-white px-4 py-1 rounded-full flex items-center gap-2 group w-fit more-btn">
-                  See Details
-                  <motion.span className="flex items-center">
-                    <FiArrowRight className="arrow" />
-                  </motion.span>
-                </motion.button>
+                <Link to="/room-details">
+                  <motion.button className="mt-4 bg-[#14141E] text-white px-4 py-1 rounded-full flex items-center gap-2 group w-fit more-btn">
+                    See Details
+                    <motion.span className="flex items-center">
+                      <FiArrowRight className="arrow" />
+                    </motion.span>
+                  </motion.button>
+                </Link>
               </div>
             </motion.div>
           ))}

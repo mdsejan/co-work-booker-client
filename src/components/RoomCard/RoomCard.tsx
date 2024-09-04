@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 interface RoomCardProps {
   image: string;
@@ -29,12 +30,14 @@ const RoomCard: React.FC<RoomCardProps> = ({
         <p className="text-gray-600">Price per Slot: ${pricePerSlot}</p>
 
         {/* See Details Button */}
-        <motion.button className="mt-4 bg-[#14141E] text-white px-3 py-1 rounded-full flex items-center gap-2 group">
-          See Details
-          <motion.span className="flex items-center">
-            <FiArrowRight />
-          </motion.span>
-        </motion.button>
+        <Link to="/room-details">
+          <motion.button className="mt-4 bg-[#14141E] text-white px-4 py-1 rounded-full flex items-center gap-2 group w-fit more-btn">
+            See Details
+            <motion.span className="flex items-center">
+              <FiArrowRight className="arrow" />
+            </motion.span>
+          </motion.button>
+        </Link>
       </div>
     </motion.div>
   );

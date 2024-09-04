@@ -3,6 +3,7 @@ import AboutUs from "@/pages/AboutUs";
 import ContactUsPage from "@/pages/ContactUsPage";
 import Home from "@/pages/Home/Home";
 import MeetingRooms from "@/pages/MeetingRooms/MeetingRooms";
+import RoomDetails from "@/pages/MeetingRooms/RoomDetails";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 import NotFound from "@/pages/shared/NotFound";
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/meeting-rooms",
         element: <MeetingRooms />,
+      },
+      {
+        path: "/room-details",
+        element: <RoomDetails />,
       },
       {
         path: "/contact-us",

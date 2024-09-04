@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
 import RoomCard from "../RoomCard/RoomCard";
+import { Link } from "react-router-dom";
 
 // Demo JSON Data
 const roomsData = [
@@ -64,21 +65,15 @@ const FeaturedRooms: React.FC = () => {
         </div>
 
         {/* See More Button */}
-        <div className="text-center mt-12">
-          <motion.button
-            className="bg-[#14141E] text-white px-16 py-2 rounded-full flex items-center gap-2 group mx-auto"
-            whileHover={{ scale: 1.05 }} // Slight scale-up on hover
-            transition={{ duration: 0.3 }}
-          >
-            See More
-            <motion.span
-              className="flex items-center"
-              whileHover={{ x: 5 }} // Arrow icon moves right on hover
-              transition={{ duration: 0.3 }}
-            >
-              <FiArrowRight />
-            </motion.span>
-          </motion.button>
+        <div className="flex justify-center mt-12">
+          <Link to="/meeting-rooms">
+            <motion.button className="mt-4 bg-[#14141E] text-white px-8 py-2 rounded-full flex items-center gap-2 group w-fit more-btn">
+              All Rooms
+              <motion.span className="flex items-center">
+                <FiArrowRight className="arrow" />
+              </motion.span>
+            </motion.button>
+          </Link>
         </div>
       </div>
     </section>
