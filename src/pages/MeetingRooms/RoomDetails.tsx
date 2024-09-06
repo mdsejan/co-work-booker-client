@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
+import { useEffect } from "react";
 
 const RoomDetails = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const roomData = {
     _id: "667542abd42a77b20d9afc54",
     name: "Training Room",
@@ -19,7 +24,7 @@ const RoomDetails = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-8 py-16 bg-white rounded-lg">
+    <div className="max-w-screen-2xl mx-auto min-h-[70vh] px-8 py-16 bg-white rounded-lg">
       {/* Image Gallery */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         {roomData.images.map((image, index) => (
