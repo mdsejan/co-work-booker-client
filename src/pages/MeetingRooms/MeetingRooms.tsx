@@ -1,45 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-
-// Demo JSON Data
-const roomsData = [
-  {
-    id: 1,
-    image: "https://via.placeholder.com/300x200",
-    name: "Conference Room A",
-    capacity: 10,
-    pricePerSlot: 50,
-  },
-  {
-    id: 2,
-    image: "https://via.placeholder.com/300x200",
-    name: "Meeting Room B",
-    capacity: 8,
-    pricePerSlot: 40,
-  },
-  {
-    id: 3,
-    image: "https://via.placeholder.com/300x200",
-    name: "Board Room C",
-    capacity: 15,
-    pricePerSlot: 60,
-  },
-  {
-    id: 4,
-    image: "https://via.placeholder.com/300x200",
-    name: "Training Room D",
-    capacity: 20,
-    pricePerSlot: 75,
-  },
-];
+import { useGetRoomsQuery } from "@/redux/api/api";
+import { Room } from "@/types";
 
 const MeetingRooms: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const { data: roomsData = [], isLoading } = useGetRoomsQuery({});
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [capacityFilter, setCapacityFilter] = useState<number | "">("");
   const [priceSort, setPriceSort] = useState<"asc" | "desc" | "">("");
-  const [filteredRooms, setFilteredRooms] = useState(roomsData);
+  const [filteredRooms, setFilteredRooms] = useState<Room[]>(roomsData);
+
+  useEffect(() => {
+    setFilteredRooms(roomsData);
+  }, [roomsData]);
 
   // Handle search, filter, and sorting logic
   const filterRooms = () => {
@@ -47,21 +22,21 @@ const MeetingRooms: React.FC = () => {
 
     // Filter by search term
     if (searchTerm) {
-      rooms = rooms.filter((room) =>
+      rooms = rooms.filter((room: Room) =>
         room.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     // Filter by capacity
     if (capacityFilter) {
-      rooms = rooms.filter((room) => room.capacity === capacityFilter);
+      rooms = rooms.filter((room: Room) => room.capacity === capacityFilter);
     }
 
     // Sort by price
     if (priceSort === "asc") {
-      rooms = rooms.sort((a, b) => a.pricePerSlot - b.pricePerSlot);
+      rooms = rooms.sort((a: Room, b: Room) => a.pricePerSlot - b.pricePerSlot);
     } else if (priceSort === "desc") {
-      rooms = rooms.sort((a, b) => b.pricePerSlot - a.pricePerSlot);
+      rooms = rooms.sort((a: Room, b: Room) => b.pricePerSlot - a.pricePerSlot);
     }
 
     setFilteredRooms(rooms);
@@ -88,6 +63,8 @@ const MeetingRooms: React.FC = () => {
     setPriceSort("");
     setFilteredRooms(roomsData);
   };
+
+  console.log(roomsData, filteredRooms);
 
   return (
     <div className="max-w-screen-2xl mx-auto px-4 py-8">
@@ -140,47 +117,51 @@ const MeetingRooms: React.FC = () => {
 
         {/* Right Column: Room Listings */}
         <div className="md:col-span-3 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {filteredRooms.map((room) => (
-            <motion.div
-              key={room.id}
-              className="flex bg-white border rounded-lg p-4"
-              whileInView={{ opacity: 1, translateY: 0 }}
-              initial={{ opacity: 0, translateY: 20 }}
-              transition={{ duration: 0.5 }}
-            >
-              {/* Room Image */}
-              <div className="w-1/3">
-                <img
-                  src={room.image}
-                  alt={room.name}
-                  className="rounded-lg object-cover w-full h-full"
-                />
-              </div>
-
-              {/* Room Details */}
-              <div className="w-2/3 pl-4 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-xl font-semibold">{room.name}</h3>
-                  <p className="text-gray-600">
-                    Capacity: {room.capacity} People
-                  </p>
-                  <p className="text-gray-600">
-                    Price: ${room.pricePerSlot} per slot
-                  </p>
+          {isLoading ? (
+            <p>Loading rooms...</p>
+          ) : (
+            roomsData?.data?.map((room: Room) => (
+              <motion.div
+                key={room._id}
+                className="flex bg-white border rounded-lg p-4"
+                whileInView={{ opacity: 1, translateY: 0 }}
+                initial={{ opacity: 0, translateY: 20 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Room Image */}
+                <div className="w-1/3">
+                  <img
+                    src={room.image || "https://via.placeholder.com/300x200"}
+                    alt={room.name}
+                    className="rounded-lg object-cover w-full h-full"
+                  />
                 </div>
 
-                {/* See Details Button */}
-                <Link to="/room-details">
-                  <motion.button className="mt-4 bg-[#14141E] text-white px-4 py-1 rounded-full flex items-center gap-2 group w-fit more-btn">
-                    See Details
-                    <motion.span className="flex items-center">
-                      <FiArrowRight className="arrow" />
-                    </motion.span>
-                  </motion.button>
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+                {/* Room Details */}
+                <div className="w-2/3 pl-4 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-xl font-semibold">{room.name}</h3>
+                    <p className="text-gray-600">
+                      Capacity: {room.capacity} People
+                    </p>
+                    <p className="text-gray-600">
+                      Price: ${room.pricePerSlot} per slot
+                    </p>
+                  </div>
+
+                  {/* See Details Button */}
+                  <Link to={`/room-details/${room._id}`}>
+                    <motion.button className="mt-4 bg-[#14141E] text-white px-4 py-1 rounded-full flex items-center gap-2 group w-fit more-btn">
+                      See Details
+                      <motion.span className="flex items-center">
+                        <FiArrowRight className="arrow" />
+                      </motion.span>
+                    </motion.button>
+                  </Link>
+                </div>
+              </motion.div>
+            ))
+          )}
         </div>
       </div>
     </div>
