@@ -64,7 +64,7 @@ const MeetingRooms: React.FC = () => {
     setFilteredRooms(roomsData);
   };
 
-  console.log(roomsData, filteredRooms);
+  console.log(filteredRooms);
 
   return (
     <div className="max-w-screen-2xl mx-auto px-4 py-8">

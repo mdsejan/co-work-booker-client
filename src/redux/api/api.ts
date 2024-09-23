@@ -15,7 +15,13 @@ export const baseApi = createApi({
 
       providesTags: ["Rooms"],
     }),
+    getRoomById: builder.query({
+      query: (id) => ({
+        url: `/rooms/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetRoomsQuery } = baseApi;
+export const { useGetRoomsQuery, useGetRoomByIdQuery } = baseApi;
