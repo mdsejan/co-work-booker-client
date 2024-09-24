@@ -4,6 +4,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 interface RoomCardProps {
+  roomId: string;
   image: string;
   name: string;
   capacity: number;
@@ -11,6 +12,7 @@ interface RoomCardProps {
 }
 
 const RoomCard: React.FC<RoomCardProps> = ({
+  roomId,
   image,
   name,
   capacity,
@@ -30,7 +32,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
         <p className="text-gray-600">Price per Slot: ${pricePerSlot}</p>
 
         {/* See Details Button */}
-        <Link to="/room-details">
+        <Link to={`/room-details/${roomId}`}>
           <motion.button className="mt-4 bg-[#14141E] text-white px-4 py-1 rounded-full flex items-center gap-2 group w-fit more-btn">
             See Details
             <motion.span className="flex items-center">

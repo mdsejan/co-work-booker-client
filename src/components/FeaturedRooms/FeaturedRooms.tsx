@@ -10,8 +10,6 @@ import { Room } from "@/types";
 const FeaturedRooms: React.FC = () => {
   const { data: roomsData } = useGetRoomsQuery({});
 
-  console.log(roomsData);
-
   return (
     <section className="bg-white py-16">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,6 +30,7 @@ const FeaturedRooms: React.FC = () => {
           {roomsData?.data?.slice(0, 4).map((room: Room) => (
             <RoomCard
               key={room._id}
+              roomId={room._id}
               image={room.image || "https://via.placeholder.com/300x200"}
               name={room.name}
               capacity={room.capacity}
