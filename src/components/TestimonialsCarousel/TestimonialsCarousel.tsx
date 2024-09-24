@@ -60,8 +60,8 @@ const TestimonialsCarousel: React.FC = () => {
     <section className=" py-16">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title Section */}
-        <div className="mb-12">
-          <div className="text-center bg-white rounded-lg px-6 py-2">
+        <div className="text-center mb-12">
+          <div className="text-center inline-block bg-[#EEE6F4] rounded-full px-6 py-2">
             <h2 className="text-3xl font-extrabold text-[#663593]">
               Customer Testimonials
             </h2>

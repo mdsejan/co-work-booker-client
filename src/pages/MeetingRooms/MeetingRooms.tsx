@@ -10,11 +10,11 @@ const MeetingRooms: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [capacityFilter, setCapacityFilter] = useState<number | "">("");
   const [priceSort, setPriceSort] = useState<"asc" | "desc" | "">("");
-  const [filteredRooms, setFilteredRooms] = useState<Room[]>(roomsData);
+  const [filteredRooms, setFilteredRooms] = useState<Room[]>(roomsData?.data);
 
   useEffect(() => {
-    setFilteredRooms(roomsData);
-  }, [roomsData]);
+    setFilteredRooms(roomsData?.data);
+  }, [roomsData?.data]);
 
   // Handle search, filter, and sorting logic
   const filterRooms = () => {
@@ -120,7 +120,7 @@ const MeetingRooms: React.FC = () => {
           {isLoading ? (
             <p>Loading rooms...</p>
           ) : (
-            roomsData?.data?.map((room: Room) => (
+            filteredRooms?.map((room: Room) => (
               <motion.div
                 key={room._id}
                 className="flex bg-white border rounded-lg p-4"
