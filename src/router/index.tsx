@@ -2,6 +2,7 @@ import MainLayout from "@/components/Layouts/MainLayouts";
 import AboutUs from "@/pages/AboutUs";
 import ContactUsPage from "@/pages/ContactUsPage";
 import Home from "@/pages/Home/Home";
+import LoginPage from "@/pages/LoginPage";
 import MeetingRooms from "@/pages/MeetingRooms/MeetingRooms";
 import RoomDetails from "@/pages/MeetingRooms/RoomDetails";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/terms-of-service",
         element: <TermsOfService />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
       },
     ],
   },
