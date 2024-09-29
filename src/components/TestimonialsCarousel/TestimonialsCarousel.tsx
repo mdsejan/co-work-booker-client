@@ -8,35 +8,40 @@ const testimonials = [
   {
     name: "John Doe",
     role: "CEO at Company A",
-    image: "https://via.placeholder.com/100",
+    image:
+      "https://i.pinimg.com/564x/90/42/44/90424430eaa5793ac1e893f074b456f2.jpg",
     testimonial:
       "This is a fantastic service! The booking experience was seamless and stress-free.",
   },
   {
     name: "Jane Smith",
     role: "Manager at Company B",
-    image: "https://via.placeholder.com/100",
+    image:
+      "https://i.pinimg.com/564x/60/f0/45/60f0456b66a9ee2ef4cd72dcd29a68fb.jpg",
     testimonial:
       "I highly recommend their service. Everything was quick and easy to use.",
   },
   {
     name: "Alex Johnson",
     role: "Founder at Startup C",
-    image: "https://via.placeholder.com/100",
+    image:
+      "https://i.pinimg.com/564x/91/26/78/912678bb8ec990033758a665d707f4df.jpg",
     testimonial:
       "A wonderful platform that solved all our meeting room booking problems.",
   },
   {
     name: "Emily Clark",
     role: "Director at Nonprofit D",
-    image: "https://via.placeholder.com/100",
+    image:
+      "https://i.pinimg.com/564x/32/2a/40/322a40afdef3b8dec5682e1b8b386811.jpg",
     testimonial:
       "We were able to easily manage our meeting room bookings, thanks to this platform.",
   },
   {
     name: "Michael Brown",
     role: "CTO at Tech E",
-    image: "https://via.placeholder.com/100",
+    image:
+      "https://i.pinimg.com/564x/60/63/25/60632507ef9209f595becf745d12ea34.jpg",
     testimonial:
       "An excellent solution for our team's booking needs. Highly recommended.",
   },
@@ -90,7 +95,7 @@ const TestimonialsCarousel: React.FC = () => {
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-24 h-24 rounded-full mb-4"
+                    className="w-24 h-24 rounded-full mb-4 object-cover"
                   />
                   <h4 className="text-xl font-semibold text-gray-800">
                     {testimonial.name}
