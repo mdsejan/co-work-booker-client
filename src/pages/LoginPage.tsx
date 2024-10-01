@@ -9,9 +9,11 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, { data, isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log(data);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

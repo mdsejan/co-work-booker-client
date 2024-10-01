@@ -4,6 +4,7 @@ export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://co-work-booker.vercel.app/api",
+    // baseUrl: "http://localhost:5000/api",
   }),
   tagTypes: ["Rooms"],
   endpoints: (builder) => ({
