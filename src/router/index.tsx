@@ -57,7 +57,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/my-bookings",
-        element: <MyBookings />,
+        element: (
+          <ProtectedRoute>
+            <MyBookings />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/admin-dashboard",
