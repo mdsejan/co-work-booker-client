@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
@@ -10,16 +10,15 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [login, { data, isLoading }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  console.log(data);
+  const location = useLocation();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    const toastId = toast.loading("Loggin in...");
-
     e.preventDefault();
+
+    const toastId = toast.loading("Loggin in...");
 
     if (!email || !password) {
       setError("Email and password are required.");
@@ -29,24 +28,29 @@ const LoginPage: React.FC = () => {
     try {
       const response = await login({ email, password }).unwrap();
       dispatch(setUser({ token: response.token }));
-      toast.success("Logged In Successfull", { id: toastId });
-      navigate("/");
+      toast.success("Logged In Successfull", { id: toastId, duration: 2000 });
+
+      navigate(location?.state ? location.state : "/");
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message || "Login failed. Please try again.", {
           id: toastId,
+          duration: 2000,
         });
       } else {
-        toast.error("An unexpected error occurred.", { id: toastId });
+        toast.error("An unexpected error occurred.", {
+          id: toastId,
+          duration: 2000,
+        });
       }
     }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-screen ">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md w-full max-w-sm"
+        className="bg-white p-6 rounded border w-full max-w-sm"
       >
         <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
 

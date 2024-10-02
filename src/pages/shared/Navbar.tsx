@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/features/auth/authSlice";
 
 interface NavbarProps {
   isAuthenticated: boolean;
@@ -13,6 +15,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, isAdmin }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
   const controls = useAnimation();
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -29,6 +32,10 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, isAdmin }) => {
       isOpen ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }
     );
   }, [isOpen, controls]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   const navLinks = (
     <>
@@ -116,12 +123,12 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, isAdmin }) => {
                         >
                           Dashboard
                         </Link>
-                        <Link
-                          to="/logout"
+                        <button
+                          onClick={handleLogout}
                           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                         >
                           Logout
-                        </Link>
+                        </button>
                       </>
                     ) : (
                       <>
@@ -131,12 +138,12 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, isAdmin }) => {
                         >
                           My Bookings
                         </Link>
-                        <Link
-                          to="/logout"
+                        <button
+                          onClick={handleLogout}
                           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                         >
                           Logout
-                        </Link>
+                        </button>
                       </>
                     )}
                   </div>

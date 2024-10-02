@@ -12,7 +12,12 @@ const RoomDetails = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="max-w-screen-2xl mx-auto min-h-[70vh] text-center ">
+        <h3 className="text-3xl py-14">Loading...</h3>
+      </div>
+    );
   if (error) return <div>Error fetching room details</div>;
 
   return (
