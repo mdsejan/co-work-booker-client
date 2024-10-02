@@ -1,42 +1,18 @@
-const MyBookings = () => {
-  // Demo booking data (this will normally come from the API)
-  const bookingData = [
-    {
-      _id: "66754f3574ad67341766d569",
-      room: {
-        name: "Conference Room",
-        roomNo: 201,
-        floorNo: 1,
-        capacity: 75,
-        pricePerSlot: 160,
-        amenities: ["Projector", "Whiteboard"],
-      },
-      slots: [
-        { _id: "1", date: "2024-07-15", startTime: "09:00", endTime: "10:00" },
-        { _id: "2", date: "2024-07-15", startTime: "10:00", endTime: "11:00" },
-      ],
-      totalAmount: 200,
-      isConfirmed: "confirmed",
-    },
-    {
-      _id: "66765c25cba04afd22d5a6fb",
-      room: {
-        name: "Executive Board Room",
-        roomNo: 204,
-        floorNo: 2,
-        capacity: 10,
-        pricePerSlot: 150,
-        amenities: ["Projector", "Whiteboard", "Conference Phone"],
-      },
-      slots: [
-        { _id: "1", date: "2024-07-15", startTime: "10:00", endTime: "11:00" },
-        { _id: "2", date: "2024-07-15", startTime: "11:00", endTime: "12:00" },
-      ],
-      totalAmount: 300,
-      isConfirmed: "unconfirmed",
-    },
-  ];
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import { useBookingsQuery } from "@/redux/features/booking/BookingApi";
+import { Booking } from "@/types";
+import { useSelector } from "react-redux";
 
+const MyBookings = () => {
+  const token = useSelector(useCurrentToken);
+  const { data, error, isLoading } = useBookingsQuery(token, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const bookingData = data?.data;
+
+  if (isLoading) return <p>Loading bookings...</p>;
+  if (error) return <p>Error loading bookings.</p>;
   return (
     <div className="max-w-screen-2xl mx-auto px-8 min-h-[70vh] py-8">
       <div className="mb-8">
@@ -57,7 +33,7 @@ const MyBookings = () => {
             </tr>
           </thead>
           <tbody>
-            {bookingData.map((booking) => (
+            {bookingData?.map((booking: Booking) => (
               <tr key={booking._id}>
                 <td className="px-4 py-2 border">{booking.room.name}</td>
                 <td className="px-4 py-2 border">{booking.room.roomNo}</td>
