@@ -51,6 +51,8 @@ const TestimonialsCarousel: React.FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     slidesToScroll: 1,
+    startIndex: 2,
+    align: "center",
   });
 
   const scrollPrev = useCallback(() => {
