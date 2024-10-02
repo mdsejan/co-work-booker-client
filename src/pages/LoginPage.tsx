@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { toast } from "sonner";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,10 @@ const LoginPage: React.FC = () => {
   console.log(data);
 
   const handleSubmit = async (e: React.FormEvent) => {
+    const toastId = toast.loading("Loggin in...");
+
     e.preventDefault();
+
     if (!email || !password) {
       setError("Email and password are required.");
       return;
@@ -25,12 +29,15 @@ const LoginPage: React.FC = () => {
     try {
       const response = await login({ email, password }).unwrap();
       dispatch(setUser({ token: response.token }));
+      toast.success("Logged In Successfull", { id: toastId });
       navigate("/");
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message || "Login failed. Please try again.");
+        toast.error(err.message || "Login failed. Please try again.", {
+          id: toastId,
+        });
       } else {
-        setError("An unexpected error occurred.");
+        toast.error("An unexpected error occurred.", { id: toastId });
       }
     }
   };

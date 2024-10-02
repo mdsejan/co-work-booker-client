@@ -1,4 +1,5 @@
 import MainLayout from "@/components/Layouts/MainLayouts";
+import ProtectedRoute from "@/components/Layouts/ProtectedRoute";
 import AboutUs from "@/pages/AboutUs";
 import ContactUsPage from "@/pages/ContactUsPage";
 import Home from "@/pages/Home/Home";
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/room-details/:id",
-        element: <RoomDetails />,
+        element: (
+          <ProtectedRoute>
+            <RoomDetails />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/contact-us",
