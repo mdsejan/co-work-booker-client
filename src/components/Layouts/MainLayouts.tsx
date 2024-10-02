@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 const MainLayout = () => {
   return (
     <div className="">
-      <Navbar isAuthenticated={true} isAdmin={true} />
+      <Navbar />
       <Outlet></Outlet>
       <Footer></Footer>
     </div>
