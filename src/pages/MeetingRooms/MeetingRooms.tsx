@@ -16,6 +16,9 @@ const MeetingRooms: React.FC = () => {
     setFilteredRooms(roomsData?.data);
   }, [roomsData?.data]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // Handle search, filter, and sorting logic
   const filterRooms = () => {
     let rooms = roomsData;
