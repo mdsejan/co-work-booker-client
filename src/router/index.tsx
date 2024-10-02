@@ -1,6 +1,7 @@
 import MainLayout from "@/components/Layouts/MainLayouts";
 import ProtectedRoute from "@/components/Layouts/ProtectedRoute";
 import AboutUs from "@/pages/AboutUs";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
 import ContactUsPage from "@/pages/ContactUsPage";
 import Home from "@/pages/Home/Home";
 import LoginPage from "@/pages/LoginPage";
@@ -10,6 +11,7 @@ import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 import NotFound from "@/pages/shared/NotFound";
 import TermsOfService from "@/pages/TermsOfService";
+import MyBookings from "@/pages/user/myBookings";
 import { createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
   {
@@ -52,6 +54,14 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/my-bookings",
+        element: <MyBookings />,
+      },
+      {
+        path: "/admin-dashboard",
+        element: <AdminDashboard />,
       },
     ],
   },
