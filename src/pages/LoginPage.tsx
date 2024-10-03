@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
@@ -14,6 +14,10 @@ const LoginPage: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,6 +103,15 @@ const LoginPage: React.FC = () => {
         >
           {isLoading ? "Logging in..." : "Login"}
         </button>
+
+        <div className="mt-8 text-center">
+          <p className="text-md">
+            Don't have an account? &nbsp;
+            <Link to="/signup" className="text-blue-500 hover:underline">
+              <span className="font-bold">Sign up</span>
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );

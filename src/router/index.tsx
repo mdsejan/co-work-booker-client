@@ -10,6 +10,7 @@ import RoomDetails from "@/pages/MeetingRooms/RoomDetails";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 import NotFound from "@/pages/shared/NotFound";
+import SignupPage from "@/pages/SignUp";
 import TermsOfService from "@/pages/TermsOfService";
 import MyBookings from "@/pages/user/myBookings";
 import { createBrowserRouter } from "react-router-dom";
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/signup",
+        element: <SignupPage />,
       },
       {
         path: "/my-bookings",

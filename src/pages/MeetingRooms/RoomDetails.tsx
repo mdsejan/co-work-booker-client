@@ -4,6 +4,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { useEffect } from "react";
 import { useGetRoomByIdQuery } from "@/redux/api/api";
 import LoadingAnimation from "@/components/LoadingAnimation/LoadingAnimation";
+import ErrorLoadingData from "@/components/LoadingAnimation/ErrorLoadingData";
 
 const RoomDetails = () => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ const RoomDetails = () => {
   }, []);
 
   if (isLoading) return <LoadingAnimation />;
-  if (error) return <div>Error fetching room details</div>;
+  if (error) return <ErrorLoadingData />;
 
   return (
     <div className="max-w-screen-2xl mx-auto min-h-[70vh] px-8 py-16 bg-white rounded-lg">
