@@ -1,3 +1,5 @@
+import ErrorLoadingData from "@/components/LoadingAnimation/ErrorLoadingData";
+import LoadingAnimation from "@/components/LoadingAnimation/LoadingAnimation";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import { useBookingsQuery } from "@/redux/features/booking/BookingApi";
 import { Booking } from "@/types";
@@ -11,8 +13,8 @@ const MyBookings = () => {
 
   const bookingData = data?.data;
 
-  if (isLoading) return <p>Loading bookings...</p>;
-  if (error) return <p>Error loading bookings.</p>;
+  if (isLoading) return <LoadingAnimation />;
+  if (error) return <ErrorLoadingData />;
   return (
     <div className="max-w-screen-2xl mx-auto px-8 min-h-[70vh] py-8">
       <div className="mb-8">
