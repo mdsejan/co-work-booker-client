@@ -1,4 +1,5 @@
 import AdminLayout from "@/components/Layouts/AdminLayout";
+import AdminProtectedRoute from "@/components/Layouts/AdminProtectedRoute";
 import MainLayout from "@/components/Layouts/MainLayouts";
 import ProtectedRoute from "@/components/Layouts/ProtectedRoute";
 import AboutUs from "@/pages/AboutUs";
@@ -81,19 +82,35 @@ const router = createBrowserRouter([
     children: [
       {
         path: "dashboard",
-        element: <AdminDashboard />,
+        element: (
+          <AdminProtectedRoute>
+            <AdminDashboard />
+          </AdminProtectedRoute>
+        ),
       },
       {
         path: "manage-rooms",
-        element: <ManageRooms />,
+        element: (
+          <AdminProtectedRoute>
+            <ManageRooms />
+          </AdminProtectedRoute>
+        ),
       },
       {
         path: "manage-slots",
-        element: <ManageSlots />,
+        element: (
+          <AdminProtectedRoute>
+            <ManageSlots />
+          </AdminProtectedRoute>
+        ),
       },
       {
         path: "manage-booking",
-        element: <ManageBooking />,
+        element: (
+          <AdminProtectedRoute>
+            <ManageBooking />
+          </AdminProtectedRoute>
+        ),
       },
     ],
   },
