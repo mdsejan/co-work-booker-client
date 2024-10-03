@@ -72,6 +72,14 @@ const AdminLayout = () => {
             <FiCalendar className="mr-3" /> Manage Bookings
           </NavLink>
         </nav>
+        <div className="px-4 py-6 bg-[#24303F]">
+          <NavLink
+            to="/"
+            className="flex justify-center items-center px-4 py-2 rounded-lg hover:bg-[#4759df] bg-[#3C50E0]"
+          >
+            Home
+          </NavLink>
+        </div>
       </div>
 
       {/* Main Content */}
