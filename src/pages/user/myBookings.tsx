@@ -1,20 +1,37 @@
-import ErrorLoadingData from "@/components/LoadingAnimation/ErrorLoadingData";
 import LoadingAnimation from "@/components/LoadingAnimation/LoadingAnimation";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import { useBookingsQuery } from "@/redux/features/booking/BookingApi";
 import { Booking } from "@/types";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const MyBookings = () => {
   const token = useSelector(useCurrentToken);
-  const { data, error, isLoading } = useBookingsQuery(token, {
+  const { data, isLoading } = useBookingsQuery(token, {
     refetchOnMountOrArgChange: true,
   });
 
   const bookingData = data?.data;
+  console.log(bookingData);
 
   if (isLoading) return <LoadingAnimation />;
-  if (error) return <ErrorLoadingData />;
+
+  if (!bookingData) {
+    return (
+      <div className="flex items-center justify-center min-h-[70vh]">
+        <div className="flex flex-col items-center">
+          <h3 className="text-3xl py-5">You don’t have any bookings.</h3>
+          <Link
+            to="/meeting-rooms"
+            className="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+          >
+            Book a Room
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-screen-2xl mx-auto px-8 min-h-[70vh] py-8">
       <div className="mb-8">
