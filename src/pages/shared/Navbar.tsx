@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
@@ -19,6 +19,9 @@ const Navbar: React.FC = () => {
   const currentUser = useSelector(selectCurrentUser);
   const isAuthenticated = useSelector(useCurrentToken);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -27,17 +30,40 @@ const Navbar: React.FC = () => {
     setIsOpen(false);
   };
 
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    closeMenu();
+  };
+
+  // Close dropdown if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     controls.start(
       isOpen ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }
     );
   }, [isOpen, controls]);
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
 
   const navLinks = (
     <>
@@ -88,20 +114,6 @@ const Navbar: React.FC = () => {
     </>
   );
 
-  const adminLinks = (
-    <Link
-      to="/admin-dashboard"
-      className={`block ${
-        location.pathname === "/admin-dashboard"
-          ? "text-blue-500 font-bold"
-          : "text-gray-500"
-      } hover:text-gray-900`}
-      onClick={closeMenu}
-    >
-      Admin Dashboard
-    </Link>
-  );
-
   return (
     <nav className="bg-white border-b">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -112,6 +124,7 @@ const Navbar: React.FC = () => {
               <Link
                 to="/"
                 className="text-xl font-bold text-gray-800 hover:text-gray-600"
+                onClick={closeMenu}
               >
                 CoWorkBooker
               </Link>
@@ -122,7 +135,7 @@ const Navbar: React.FC = () => {
           {/* User and Menu Icons */}
           <div className="flex items-center">
             {isAuthenticated && currentUser ? (
-              <div className="relative">
+              <div className="relative" ref={dropdownRef}>
                 <button
                   className="flex items-center text-gray-600 hover:text-gray-800"
                   onClick={toggleDropdown}
@@ -134,8 +147,9 @@ const Navbar: React.FC = () => {
                     {currentUser.role === "admin" ? (
                       <>
                         <Link
-                          to="/admin-dashboard"
+                          to="/admin/dashboard"
                           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                          onClick={closeMenu}
                         >
                           Admin Dashboard
                         </Link>
@@ -146,11 +160,12 @@ const Navbar: React.FC = () => {
                           Logout
                         </button>
                       </>
-                    ) : currentUser.role === "user" ? (
+                    ) : (
                       <>
                         <Link
                           to="/my-bookings"
                           className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                          onClick={closeMenu}
                         >
                           My Bookings
                         </Link>
@@ -161,7 +176,7 @@ const Navbar: React.FC = () => {
                           Logout
                         </button>
                       </>
-                    ) : null}
+                    )}
                   </div>
                 )}
               </div>
@@ -169,13 +184,14 @@ const Navbar: React.FC = () => {
               <Link
                 to="/login"
                 className="text-white bg-black rounded-full px-8 py-1"
+                onClick={closeMenu}
               >
                 Login
               </Link>
             )}
 
             {/* Mobile Menu Icon */}
-            <div className="md:hidden ml-4">
+            <div className="md:hidden ml-4" ref={menuRef}>
               <button
                 onClick={toggleMenu}
                 className="text-gray-500 hover:text-gray-900 focus:outline-none"
@@ -203,7 +219,15 @@ const Navbar: React.FC = () => {
         <div className="relative">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navLinks}
-            {currentUser && currentUser.role === "admin" && adminLinks}
+            {currentUser && currentUser.role === "admin" && (
+              <Link
+                to="/admin-dashboard"
+                className="block text-gray-500 hover:text-gray-900"
+                onClick={closeMenu}
+              >
+                Admin Dashboard
+              </Link>
+            )}
           </div>
         </div>
       </motion.div>

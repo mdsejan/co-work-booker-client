@@ -1,7 +1,11 @@
+import AdminLayout from "@/components/Layouts/AdminLayout";
 import MainLayout from "@/components/Layouts/MainLayouts";
 import ProtectedRoute from "@/components/Layouts/ProtectedRoute";
 import AboutUs from "@/pages/AboutUs";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
+import ManageBooking from "@/pages/admin/ManageBooking";
+import ManageRooms from "@/pages/admin/ManageRooms";
+import ManageSlots from "@/pages/admin/ManageSlots";
 import ContactUsPage from "@/pages/ContactUsPage";
 import Home from "@/pages/Home/Home";
 import LoginPage from "@/pages/LoginPage";
@@ -68,9 +72,28 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+    ],
+  },
+  {
+    path: "admin",
+    element: <AdminLayout />,
+    errorElement: <NotFound />,
+    children: [
       {
-        path: "/admin-dashboard",
+        path: "dashboard",
         element: <AdminDashboard />,
+      },
+      {
+        path: "manage-rooms",
+        element: <ManageRooms />,
+      },
+      {
+        path: "manage-slots",
+        element: <ManageSlots />,
+      },
+      {
+        path: "manage-booking",
+        element: <ManageBooking />,
       },
     ],
   },
