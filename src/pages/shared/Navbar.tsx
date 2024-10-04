@@ -115,7 +115,9 @@ const Navbar: React.FC = () => {
   );
 
   return (
-    <nav className="bg-white border-b">
+    <nav className="bg-white border-b sticky top-0 z-50">
+      {" "}
+      {/* Add z-index and relative */}
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -206,12 +208,11 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-
       {/* Mobile Menu */}
       <motion.div
         className={`fixed top-16 left-0 w-full bg-white border-t shadow-lg ${
           isOpen ? "block" : "hidden"
-        }`}
+        } z-50`}
         initial={{ opacity: 0, height: 0 }}
         animate={controls}
         transition={{ duration: 0.3 }}
