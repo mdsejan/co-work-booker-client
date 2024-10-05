@@ -8,14 +8,6 @@ export const baseApi = createApi({
   }),
   tagTypes: ["Rooms", "Booking"],
   endpoints: (builder) => ({
-    getRooms: builder.query({
-      query: () => ({
-        url: "/rooms",
-        method: "GET",
-      }),
-
-      providesTags: ["Rooms"],
-    }),
     getRoomById: builder.query({
       query: (id) => ({
         url: `/rooms/${id}`,
@@ -25,4 +17,4 @@ export const baseApi = createApi({
   }),
 });
 
-export const { useGetRoomsQuery, useGetRoomByIdQuery } = baseApi;
+export const { useGetRoomByIdQuery } = baseApi;

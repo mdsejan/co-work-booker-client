@@ -29,21 +29,20 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     formState: { errors },
   } = useForm<BookingFormData>();
 
-  // State to hold the selected date
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
-  // Get the current user data
+  // Get current user data
   const currentUser = useSelector(selectCurrentUser);
   const { data } = useGetUserQuery(currentUser?.userId);
   const userData = data?.data;
 
-  // Handle form submission
+  // form submission
   const onSubmit = (formData: BookingFormData) => {
     const bookingDetails = {
       ...formData,
-      date: selectedDate ? selectedDate.toISOString().split("T")[0] : null, // Format date for readability
+      date: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
     };
-    console.log("Booking Details: ", bookingDetails); // Now includes the date correctly
+    console.log("Booking Details: ", bookingDetails);
   };
 
   return (
@@ -56,7 +55,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
           className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
         >
           <div className="bg-white rounded-lg p-8 max-w-lg w-full relative">
-            {/* Close Button */}
             <button
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
               onClick={onClose}
@@ -68,16 +66,15 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
               Book Your Slot
             </h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              {/* Date Picker */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Select Date
                 </label>
                 <DatePicker
-                  selected={selectedDate} // The selected date from state
-                  onChange={(date) => setSelectedDate(date)} // Update the state when the date changes
+                  selected={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
                   className="mt-1 block w-full px-4 py-2 border rounded-lg"
-                  minDate={new Date()} // Restrict to today or later
+                  minDate={new Date()}
                 />
 
                 {errors.date && (
@@ -85,7 +82,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                 )}
               </div>
 
-              {/* Time Slot Selection */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Select Time Slot
@@ -110,7 +106,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                 )}
               </div>
 
-              {/* User Information */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Name
@@ -137,7 +132,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                 />
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 className="w-full bg-[#2499EF] hover:bg-[#0E73BE] text-white font-semibold py-3 rounded-lg"

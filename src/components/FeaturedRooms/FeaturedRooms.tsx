@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
 import RoomCard from "../RoomCard/RoomCard";
 import { Link } from "react-router-dom";
-import { useGetRoomsQuery } from "@/redux/api/api";
+
 import { Room } from "@/types";
+import { useGetRoomsQuery } from "@/redux/features/room/RoomApi";
 
 const FeaturedRooms: React.FC = () => {
   const { data: roomsData } = useGetRoomsQuery({});

@@ -1,14 +1,5 @@
+import { Room } from "@/types";
 import { useState } from "react";
-
-interface Room {
-  _id: string;
-  name: string;
-  roomNo: number;
-  floorNo: number;
-  capacity: number;
-  pricePerSlot: number;
-  amenities: string[];
-}
 
 const demoRoomData: Room[] = [
   {

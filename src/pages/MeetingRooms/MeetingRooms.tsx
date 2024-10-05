@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useGetRoomsQuery } from "@/redux/api/api";
+
 import { Room } from "@/types";
+import { useGetRoomsQuery } from "@/redux/features/room/RoomApi";
 
 const MeetingRooms: React.FC = () => {
   const { data: roomsData = [], isLoading } = useGetRoomsQuery({});
