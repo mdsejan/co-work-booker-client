@@ -1,39 +1,12 @@
+import { useGetRoomsQuery } from "@/redux/features/room/RoomApi";
 import { Room } from "@/types";
 import { useState } from "react";
 
-const demoRoomData: Room[] = [
-  {
-    _id: "1",
-    name: "Conference Hall",
-    roomNo: 101,
-    floorNo: 2,
-    capacity: 50,
-    pricePerSlot: 300,
-    amenities: ["Projector", "Microphone", "Sound System", "TV Screen", "WiFi"],
-  },
-  {
-    _id: "2",
-    name: "Meeting Room A",
-    roomNo: 102,
-    floorNo: 3,
-    capacity: 20,
-    pricePerSlot: 150,
-    amenities: ["Whiteboard", "WiFi"],
-  },
-  {
-    _id: "3",
-    name: "Workshop Room",
-    roomNo: 103,
-    floorNo: 1,
-    capacity: 30,
-    pricePerSlot: 200,
-    amenities: ["Projector", "WiFi", "Speakers"],
-  },
-];
-
 const ManageRooms = () => {
   const [showAddRoomModal, setShowAddRoomModal] = useState(false);
-  const [roomData] = useState<Room[]>(demoRoomData);
+
+  const { data, isLoading, error } = useGetRoomsQuery({});
+  const roomData = data?.data;
 
   const handleAddRoom = () => {
     setShowAddRoomModal(false);
@@ -46,6 +19,14 @@ const ManageRooms = () => {
   const handleDeleteRoom = (roomId: string) => {
     alert(`Delete room with ID: ${roomId}`);
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error fetching rooms. Please try again later.</p>;
+  }
 
   return (
     <div className="max-w-screen-2xl mx-auto px-8 min-h-[70vh] py-8">
@@ -73,7 +54,7 @@ const ManageRooms = () => {
             </tr>
           </thead>
           <tbody>
-            {roomData?.map((room) => (
+            {roomData?.map((room: Room) => (
               <tr key={room._id}>
                 <td className="px-4 py-2 border">{room.name}</td>
                 <td className="px-4 py-2 border">{room.roomNo}</td>
@@ -100,7 +81,7 @@ const ManageRooms = () => {
         </table>
       </div>
 
-      {/* Room Modal  */}
+      {/* Room Modal */}
       {showAddRoomModal && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
           <div className="bg-white p-8 rounded-md max-w-lg w-full">
