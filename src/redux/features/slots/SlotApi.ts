@@ -7,9 +7,17 @@ const SlotApi = baseApi.injectEndpoints({
         url: `/slots/availability?roomId=${id}`,
         method: "GET",
       }),
+      providesTags: ["RoomSlots"],
+    }),
+    allSlots: builder.query({
+      query: () => ({
+        url: `/slots/availability`,
+        method: "GET",
+      }),
+      providesTags: ["AllSlots"],
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useRoomSlotsQuery } = SlotApi;
+export const { useRoomSlotsQuery, useAllSlotsQuery } = SlotApi;

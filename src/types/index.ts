@@ -41,3 +41,12 @@ export type BookingFormData = {
   userName: string;
   email: string;
 };
+
+export interface Slots {
+  _id: string;
+  room: Room;
+  date: string;
+  startTime: string;
+  endTime: string;
+  isBooked: boolean;
+}
