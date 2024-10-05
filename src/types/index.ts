@@ -34,3 +34,10 @@ export interface BookingResponse {
   message: string;
   data: Booking[];
 }
+
+export type BookingFormData = {
+  date: Date;
+  timeSlot: string;
+  userName: string;
+  email: string;
+};

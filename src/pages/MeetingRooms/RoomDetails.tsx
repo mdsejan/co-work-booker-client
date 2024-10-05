@@ -1,14 +1,17 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGetRoomByIdQuery } from "@/redux/api/api";
 import LoadingAnimation from "@/components/LoadingAnimation/LoadingAnimation";
 import ErrorLoadingData from "@/components/LoadingAnimation/ErrorLoadingData";
+import BookingModal from "@/components/room/BookingModal";
 
 const RoomDetails = () => {
   const { id } = useParams();
   const { data: roomData, error, isLoading } = useGetRoomByIdQuery(id);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -16,6 +19,16 @@ const RoomDetails = () => {
 
   if (isLoading) return <LoadingAnimation />;
   if (error) return <ErrorLoadingData />;
+
+  // Function to handle modal open
+  const openBookingModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeBookingModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="max-w-screen-2xl mx-auto min-h-[70vh] px-8 py-16 bg-white rounded-lg">
@@ -55,14 +68,18 @@ const RoomDetails = () => {
       </div>
 
       {/* Book Now Button */}
-      <Link to="/booking-page">
-        <motion.button className="mt-4 bg-[#14141E] text-white px-4 py-2 rounded-full flex items-center gap-2 group w-fit more-btn">
-          Book Now
-          <motion.span className="flex items-center">
-            <FiArrowRight className="arrow" />
-          </motion.span>
-        </motion.button>
-      </Link>
+      <motion.button
+        onClick={openBookingModal} // Open the booking modal on click
+        className="mt-4 bg-[#14141E] text-white px-4 py-2 rounded-full flex items-center gap-2 group w-fit more-btn"
+      >
+        Book Now
+        <motion.span className="flex items-center">
+          <FiArrowRight className="arrow" />
+        </motion.span>
+      </motion.button>
+
+      {/* Booking Modal */}
+      <BookingModal isOpen={isModalOpen} onClose={closeBookingModal} />
     </div>
   );
 };
