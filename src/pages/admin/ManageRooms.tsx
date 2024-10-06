@@ -30,11 +30,11 @@ const ManageRooms = () => {
 
   return (
     <div className="max-w-screen-2xl mx-auto px-8 min-h-[70vh] py-8">
-      <div className="mb-8 flex justify-between">
+      <div className="mb-8 flex flex-wrap justify-between">
         <h2 className="text-3xl font-semibold">Room Management</h2>
         <button
           onClick={() => setShowAddRoomModal(true)}
-          className="bg-[#2499EF] text-white px-4 py-2 rounded-md"
+          className="bg-[#2499EF] text-white px-4 py-2  mt-6 lg:mt-0 rounded-md"
         >
           Create Room
         </button>

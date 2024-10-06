@@ -148,12 +148,12 @@ const ManageSlots = () => {
 
   return (
     <div className="max-w-screen-2xl mx-auto px-8 min-h-[70vh] py-8">
-      <div className="mb-8 flex justify-between items-center">
+      <div className="mb-8 flex flex-wrap justify-between items-center">
         <h2 className="text-3xl font-semibold">Slots Management</h2>
 
         <button
           onClick={handleAddSlot}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-blue-500 text-white px-4 py-2 mt-6 lg-mt-0 rounded hover:bg-blue-600"
         >
           Create Slot
         </button>

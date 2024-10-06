@@ -84,12 +84,12 @@ const AdminLayout = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 lg:ml-64 h-screen overflow-y-auto bg-[#F1F5F9] p-8">
+      <div className="flex-1 md:ml-64 h-screen overflow-y-auto bg-[#F1F5F9] md:p-8">
         {/* Toggle Button (Mobile and Tablet) */}
-        <div className="lg:hidden flex justify-between items-center mb-4 absolute right-4 top-4">
+        <div className="md:hidden flex justify-between items-center mb-4 absolute right-4 top-4 p-2 bg-neutral-700 rounded-lg">
           <button
             onClick={toggleSidebar}
-            className="text-[#1C2434] focus:outline-none"
+            className="text-white focus:outline-none"
           >
             {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
