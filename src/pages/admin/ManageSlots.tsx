@@ -1,19 +1,27 @@
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import { useGetRoomsQuery } from "@/redux/features/room/RoomApi";
-import { useAllSlotsQuery } from "@/redux/features/slots/SlotApi";
+import {
+  useAllSlotsQuery,
+  useCreateSlotMutation,
+} from "@/redux/features/slots/SlotApi";
 import { Room, Slots } from "@/types";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const ManageSlots = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+  const token = useSelector(useCurrentToken);
 
   const room = selectedRoom?._id;
-  const roomNo = selectedRoom?.roomNo;
 
   const { data, isLoading, error } = useAllSlotsQuery({});
   const slotsData = data?.data;
 
   const { data: roomsData } = useGetRoomsQuery({});
+
+  const [createSlot] = useCreateSlotMutation();
 
   const handleAddSlot = () => {
     setIsModalOpen(true);
@@ -29,17 +37,59 @@ const ManageSlots = () => {
     setSelectedRoom(room || null);
   };
 
-  const handleSubmitSlot = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitSlot = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const toastId = toast.loading("Creating Slot ...");
 
     const formData = new FormData(e.currentTarget);
     const date = formData.get("date") as string;
     const startTime = formData.get("startTime") as string;
     const endTime = formData.get("endTime") as string;
 
-    const getSlotsData = { room, roomNo, date, startTime, endTime };
+    if (!token || !room) {
+      alert("Room and token are required");
+      return;
+    }
 
-    console.log(getSlotsData);
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+    const timePattern = /^\d{2}:\d{2}$/;
+
+    if (!date.match(datePattern)) {
+      alert("Invalid date format. Please use YYYY-MM-DD.");
+      return;
+    }
+
+    if (!startTime.match(timePattern) || !endTime.match(timePattern)) {
+      alert("Invalid time format. Please use HH:MM.");
+      return;
+    }
+
+    const slotData = {
+      room,
+      date,
+      startTime,
+      endTime,
+      isBooked: false,
+    };
+
+    console.log(slotData);
+
+    try {
+      await createSlot({ token, slotData }).unwrap();
+      toast.success("Slot created successfully!", {
+        id: toastId,
+        duration: 2000,
+      });
+
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Server response:", error);
+      toast.error("Error creating slot", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
 
     setIsModalOpen(false);
   };
@@ -88,15 +138,6 @@ const ManageSlots = () => {
                   ))}
                 </select>
               </div>
-
-              {/* Room No */}
-              <input
-                id="roomNo"
-                name="roomNo"
-                className="w-full px-3 py-2 border border-gray-300 rounded"
-                value={selectedRoom?.roomNo ?? ""}
-                readOnly
-              />
 
               {/* Date */}
               <div className="mb-4">

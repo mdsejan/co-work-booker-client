@@ -16,8 +16,20 @@ const SlotApi = baseApi.injectEndpoints({
       }),
       providesTags: ["AllSlots"],
     }),
+    createSlot: builder.mutation({
+      query: ({ token, slotData }) => ({
+        url: "/slots",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: slotData,
+      }),
+      invalidatesTags: ["AllSlots", "RoomSlots"],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useRoomSlotsQuery, useAllSlotsQuery } = SlotApi;
+export const { useRoomSlotsQuery, useAllSlotsQuery, useCreateSlotMutation } =
+  SlotApi;

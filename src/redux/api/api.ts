@@ -6,7 +6,7 @@ export const baseApi = createApi({
     baseUrl: "https://co-work-booker.vercel.app/api",
     // baseUrl: "http://localhost:5000/api",
   }),
-  tagTypes: ["Rooms", "Booking"],
+  tagTypes: ["Rooms", "Booking", "RoomSlots", "AllSlots"],
   endpoints: (builder) => ({
     getRoomById: builder.query({
       query: (id) => ({
