@@ -27,9 +27,23 @@ const SlotApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["AllSlots", "RoomSlots"],
     }),
+    deleteSlot: builder.mutation({
+      query: ({ token, slotId }) => ({
+        url: `/slots/${slotId}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["AllSlots", "RoomSlots"],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useRoomSlotsQuery, useAllSlotsQuery, useCreateSlotMutation } =
-  SlotApi;
+export const {
+  useRoomSlotsQuery,
+  useAllSlotsQuery,
+  useCreateSlotMutation,
+  useDeleteSlotMutation,
+} = SlotApi;

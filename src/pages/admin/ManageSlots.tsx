@@ -3,6 +3,7 @@ import { useGetRoomsQuery } from "@/redux/features/room/RoomApi";
 import {
   useAllSlotsQuery,
   useCreateSlotMutation,
+  useDeleteSlotMutation,
 } from "@/redux/features/slots/SlotApi";
 import { Room, Slots } from "@/types";
 import { useState } from "react";
@@ -12,6 +13,7 @@ import { toast } from "sonner";
 const ManageSlots = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+  const [deleteSlot] = useDeleteSlotMutation();
   const token = useSelector(useCurrentToken);
 
   const room = selectedRoom?._id;
@@ -92,6 +94,48 @@ const ManageSlots = () => {
     }
 
     setIsModalOpen(false);
+  };
+
+  const handleDeleteSlot = (slotId: string | undefined) => {
+    if (!slotId) return;
+
+    const confirmDelete = async () => {
+      try {
+        const res = await deleteSlot({ token, slotId }).unwrap();
+        if (res?.success) {
+          toast.success(res?.message, { duration: 1300 });
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to delete the slot");
+      }
+    };
+
+    toast(
+      <div>
+        <p>Are you sure you want to delete this slot?</p>
+        <div className="flex justify-end mt-4">
+          <button
+            onClick={() => {
+              confirmDelete();
+              toast.dismiss();
+            }}
+            className="bg-red-500 text-white py-1 px-3 rounded mr-2"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => toast.dismiss()}
+            className="bg-gray-500 text-white py-1 px-3 rounded"
+          >
+            No
+          </button>
+        </div>
+      </div>,
+      {
+        duration: 5000,
+      }
+    );
   };
 
   if (isLoading) {
@@ -229,7 +273,10 @@ const ManageSlots = () => {
                   <button className="bg-yellow-500 text-white px-3 py-1 rounded-md mr-2">
                     Update
                   </button>
-                  <button className="bg-red-600 text-white px-3 py-1 rounded-md">
+                  <button
+                    onClick={() => handleDeleteSlot(slot._id)}
+                    className="bg-red-600 text-white px-3 py-1 rounded-md"
+                  >
                     Delete
                   </button>
                 </td>
