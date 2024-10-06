@@ -1,9 +1,17 @@
-import { useGetRoomsQuery } from "@/redux/features/room/RoomApi";
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import {
+  useDeleteRoomMutation,
+  useGetRoomsQuery,
+} from "@/redux/features/room/RoomApi";
 import { Room } from "@/types";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const ManageRooms = () => {
   const [showAddRoomModal, setShowAddRoomModal] = useState(false);
+  const [deleteRoom] = useDeleteRoomMutation();
+  const token = useSelector(useCurrentToken);
 
   const { data, isLoading, error } = useGetRoomsQuery({});
   const roomData = data?.data;
@@ -17,7 +25,45 @@ const ManageRooms = () => {
   };
 
   const handleDeleteRoom = (roomId: string) => {
-    alert(`Delete room with ID: ${roomId}`);
+    if (!roomId) return;
+
+    const confirmDelete = async () => {
+      try {
+        const res = await deleteRoom({ token, roomId }).unwrap();
+        if (res?.success) {
+          toast.success(res?.message, { duration: 1300 });
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to delete the Room");
+      }
+    };
+
+    toast(
+      <div>
+        <p>Are you sure you want to delete this Room?</p>
+        <div className="flex justify-end mt-4">
+          <button
+            onClick={() => {
+              confirmDelete();
+              toast.dismiss();
+            }}
+            className="bg-red-500 text-white py-1 px-3 rounded mr-2"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => toast.dismiss()}
+            className="bg-gray-500 text-white py-1 px-3 rounded"
+          >
+            No
+          </button>
+        </div>
+      </div>,
+      {
+        duration: 5000,
+      }
+    );
   };
 
   if (isLoading) {
