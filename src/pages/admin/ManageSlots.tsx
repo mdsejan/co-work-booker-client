@@ -159,7 +159,7 @@ const ManageSlots = () => {
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white w-full max-w-lg p-6 rounded shadow-lg">
+          <div className="bg-white w-full max-w-lg max-h-full overflow-y-auto p-6 rounded shadow-lg">
             <h3 className="text-xl font-semibold mb-4">Create Slot</h3>
             <form onSubmit={handleSubmitSlot}>
               {/* Room */}

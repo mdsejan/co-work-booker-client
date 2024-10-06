@@ -186,7 +186,7 @@ const ManageRooms = () => {
       {/* Room Modal */}
       {showAddRoomModal && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
-          <div className="bg-white p-8 rounded-md max-w-lg w-full">
+          <div className="bg-white p-8 rounded-md max-w-lg w-full max-h-full overflow-y-auto">
             <h3 className="text-2xl mb-4">Add New Room</h3>
             <form onSubmit={handleAddRoom}>
               <div className="mb-4">
@@ -282,19 +282,21 @@ const ManageRooms = () => {
                   Enter amenities separated by commas.
                 </small>
               </div>
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-md"
-              >
-                Add Room
-              </button>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setShowAddRoomModal(false)}
+                  className="bg-gray-500 text-white px-4 py-2 rounded-sm hover:bg-gray-600"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                >
+                  Add Room
+                </button>
+              </div>
             </form>
-            <button
-              onClick={() => setShowAddRoomModal(false)}
-              className="mt-4 text-red-500"
-            >
-              Cancel
-            </button>
           </div>
         </div>
       )}
