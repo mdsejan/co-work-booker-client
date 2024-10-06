@@ -1,22 +1,68 @@
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import {
+  useCreateRoomMutation,
   useDeleteRoomMutation,
   useGetRoomsQuery,
 } from "@/redux/features/room/RoomApi";
 import { Room } from "@/types";
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const ManageRooms = () => {
   const [showAddRoomModal, setShowAddRoomModal] = useState(false);
+  const [roomData, setRoomData] = useState({
+    name: "",
+    roomNo: 0,
+    floorNo: 0,
+    capacity: 0,
+    pricePerSlot: 0,
+    amenities: [] as string[], // Use an array to hold amenities
+  });
+  const [amenitiesInput, setAmenitiesInput] = useState("");
+
   const [deleteRoom] = useDeleteRoomMutation();
+  const [createRoom] = useCreateRoomMutation();
   const token = useSelector(useCurrentToken);
 
   const { data, isLoading, error } = useGetRoomsQuery({});
-  const roomData = data?.data;
+  const rooms = data?.data;
 
-  const handleAddRoom = () => {
+  const handleAddRoom = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const toastId = toast.loading("Creating Room ...");
+
+    setRoomData({
+      name: "",
+      roomNo: 0,
+      floorNo: 0,
+      capacity: 0,
+      pricePerSlot: 0,
+      amenities: [],
+    });
+    setAmenitiesInput("");
+
+    if (!token || !roomData) {
+      alert("Room and token are required");
+      return;
+    }
+
+    try {
+      await createRoom({ token, roomData }).unwrap();
+      toast.success("Room created successfully!", {
+        id: toastId,
+        duration: 2000,
+      });
+
+      setShowAddRoomModal(false);
+    } catch (error) {
+      console.error("Server response:", error);
+      toast.error("Error creating Room", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
     setShowAddRoomModal(false);
   };
 
@@ -66,6 +112,16 @@ const ManageRooms = () => {
     );
   };
 
+  const handleAmenitiesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setAmenitiesInput(value);
+    const amenitiesArray = value.split(",").map((item) => item.trim());
+    setRoomData((prev) => ({
+      ...prev,
+      amenities: amenitiesArray,
+    }));
+  };
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -80,7 +136,7 @@ const ManageRooms = () => {
         <h2 className="text-3xl font-semibold">Room Management</h2>
         <button
           onClick={() => setShowAddRoomModal(true)}
-          className="bg-[#2499EF] text-white px-4 py-2  mt-6 lg:mt-0 rounded-md"
+          className="bg-[#2499EF] text-white px-4 py-2 mt-6 lg:mt-0 rounded-md"
         >
           Create Room
         </button>
@@ -100,7 +156,7 @@ const ManageRooms = () => {
             </tr>
           </thead>
           <tbody>
-            {roomData?.map((room: Room) => (
+            {rooms?.map((room: Room) => (
               <tr key={room._id}>
                 <td className="px-4 py-2 border">{room.name}</td>
                 <td className="px-4 py-2 border">{room.roomNo}</td>
@@ -139,6 +195,13 @@ const ManageRooms = () => {
                   type="text"
                   className="border w-full p-2"
                   placeholder="Conference Hall"
+                  value={roomData.name}
+                  onChange={(e) =>
+                    setRoomData((prev) => ({
+                      ...prev,
+                      name: e.target.value,
+                    }))
+                  }
                   required
                 />
               </div>
@@ -148,6 +211,13 @@ const ManageRooms = () => {
                   type="number"
                   className="border w-full p-2"
                   placeholder="101"
+                  value={roomData.roomNo}
+                  onChange={(e) =>
+                    setRoomData((prev) => ({
+                      ...prev,
+                      roomNo: parseInt(e.target.value, 10),
+                    }))
+                  }
                   required
                 />
               </div>
@@ -157,6 +227,13 @@ const ManageRooms = () => {
                   type="number"
                   className="border w-full p-2"
                   placeholder="2"
+                  value={roomData.floorNo}
+                  onChange={(e) =>
+                    setRoomData((prev) => ({
+                      ...prev,
+                      floorNo: parseInt(e.target.value, 10),
+                    }))
+                  }
                   required
                 />
               </div>
@@ -166,6 +243,13 @@ const ManageRooms = () => {
                   type="number"
                   className="border w-full p-2"
                   placeholder="50"
+                  value={roomData.capacity}
+                  onChange={(e) =>
+                    setRoomData((prev) => ({
+                      ...prev,
+                      capacity: parseInt(e.target.value, 10),
+                    }))
+                  }
                   required
                 />
               </div>
@@ -175,25 +259,42 @@ const ManageRooms = () => {
                   type="number"
                   className="border w-full p-2"
                   placeholder="300"
+                  value={roomData.pricePerSlot}
+                  onChange={(e) =>
+                    setRoomData((prev) => ({
+                      ...prev,
+                      pricePerSlot: parseInt(e.target.value, 10),
+                    }))
+                  }
                   required
                 />
               </div>
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={() => setShowAddRoomModal(false)}
-                  className="bg-gray-400 text-white px-4 py-2 rounded-md mr-2"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-[#2499EF] text-white px-4 py-2 rounded-md"
-                >
-                  Add Room
-                </button>
+              <div className="mb-4">
+                <label className="block mb-2">Amenities</label>
+                <input
+                  type="text"
+                  className="border w-full p-2"
+                  placeholder="Projector, Microphone, TV Screen"
+                  value={amenitiesInput}
+                  onChange={handleAmenitiesChange}
+                />
+                <small className="text-gray-500">
+                  Enter amenities separated by commas.
+                </small>
               </div>
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+              >
+                Add Room
+              </button>
             </form>
+            <button
+              onClick={() => setShowAddRoomModal(false)}
+              className="mt-4 text-red-500"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}

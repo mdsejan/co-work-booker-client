@@ -75,8 +75,6 @@ const ManageSlots = () => {
       isBooked: false,
     };
 
-    console.log(slotData);
-
     try {
       await createSlot({ token, slotData }).unwrap();
       toast.success("Slot created successfully!", {
