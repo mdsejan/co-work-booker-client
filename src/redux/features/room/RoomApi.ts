@@ -23,6 +23,18 @@ const RoomApi = baseApi.injectEndpoints({
       invalidatesTags: ["Rooms"],
     }),
 
+    updateRoom: builder.mutation({
+      query: ({ roomId, token, roomData }) => ({
+        url: `/rooms/${roomId}`,
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: roomData,
+      }),
+      invalidatesTags: ["Rooms"],
+    }),
+
     deleteRoom: builder.mutation({
       query: ({ token, roomId }) => ({
         url: `/rooms/${roomId}`,
@@ -41,4 +53,5 @@ export const {
   useGetRoomsQuery,
   useDeleteRoomMutation,
   useCreateRoomMutation,
+  useUpdateRoomMutation,
 } = RoomApi;
