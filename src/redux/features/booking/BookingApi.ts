@@ -12,8 +12,19 @@ const bookingApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Booking"],
     }),
+
+    allBookings: builder.query({
+      query: (token) => ({
+        url: "/bookings",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["All-Booking"],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useBookingsQuery } = bookingApi;
+export const { useBookingsQuery, useAllBookingsQuery } = bookingApi;
