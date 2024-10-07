@@ -20,12 +20,16 @@ const RoomCard: React.FC<RoomCardProps> = ({
 }) => {
   return (
     <motion.div
-      className="bg-white border border-gray-300 rounded-lg overflow-hidden"
+      className="bg-white border border-gray-200 rounded-xl overflow-hidden"
       whileInView={{ opacity: 1, translateY: 0 }}
       initial={{ opacity: 0, translateY: 20 }}
       transition={{ duration: 0.5 }}
     >
-      <img src={image} alt={name} className="w-full h-40 object-cover" />
+      <img
+        src={image}
+        alt={name}
+        className="w-full h-40 object-cover rounded-md"
+      />
       <div className="p-4">
         <h3 className="text-lg font-semibold text-gray-800">{name}</h3>
         <p className="text-gray-600">Capacity: {capacity} people</p>

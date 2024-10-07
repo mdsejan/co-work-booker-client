@@ -35,10 +35,10 @@ const ServiceAdvertisement: React.FC = () => {
             <div className="flex items-center justify-center bg-[#EEE6F4] rounded-full w-16 h-16 mb-4">
               <FaClock size={32} className="text-[#2499EF]" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2 text-center">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2 text-left">
               Real-Time Availability
             </h3>
-            <p className="text-gray-600 text-center">
+            <p className="text-gray-600 text-left">
               Check room availability instantly and book without delay.
             </p>
           </motion.div>
@@ -53,10 +53,10 @@ const ServiceAdvertisement: React.FC = () => {
             <div className="flex items-center justify-center bg-[#EEE6F4] rounded-full w-16 h-16 mb-4">
               <FaCalendarCheck size={32} className="text-[#2499EF]" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2 text-center">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2 text-left">
               Instant Booking Confirmation
             </h3>
-            <p className="text-gray-600 text-center">
+            <p className="text-gray-600 text-left">
               Get immediate confirmation of your bookings with ease.
             </p>
           </motion.div>
@@ -71,10 +71,10 @@ const ServiceAdvertisement: React.FC = () => {
             <div className="flex items-center justify-center bg-[#EEE6F4] rounded-full w-16 h-16 mb-4">
               <FaCalendarAlt size={32} className="text-[#2499EF]" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2 text-center">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2 text-left">
               Flexible Scheduling
             </h3>
-            <p className="text-gray-600 text-center">
+            <p className="text-gray-600 text-left">
               Adjust your booking times to suit your needs with flexible
               scheduling options.
             </p>
@@ -90,10 +90,10 @@ const ServiceAdvertisement: React.FC = () => {
             <div className="flex items-center justify-center bg-[#EEE6F4] rounded-full w-16 h-16 mb-4">
               <FaHeadset size={32} className="text-[#2499EF]" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2 text-center">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2 text-left">
               24/7 Support
             </h3>
-            <p className="text-gray-600 text-center">
+            <p className="text-gray-600 text-left">
               Our support team is here for you around the clock to ensure a
               smooth experience.
             </p>

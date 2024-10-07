@@ -31,23 +31,22 @@ const RoomDetails = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto min-h-[70vh] px-8 py-16 bg-white rounded-lg">
+    <div className="max-w-screen-lg mx-auto min-h-[70vh] px-8 py-16 bg-white rounded-lg">
       {/* Image Gallery */}
-      {/* <div className="grid grid-cols-3 gap-4 mb-8">
-        {roomData.images.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Room Image ${index + 1}`}
-            className="rounded-lg"
-          />
-        ))}
-      </div> */}
+      <div className="">
+        <img
+          src={roomData?.data?.image}
+          alt={roomData?.data?.name}
+          className="w-full h-[50vh] object-cover rounded-lg mb-8"
+        />
+      </div>
 
       {/* Room Information */}
       <div className="flex flex-col md:flex-row md:gap-32">
         <div className="mb-8">
-          <h1 className="text-3xl font-semibold mb-4">{roomData.name}</h1>
+          <h1 className="text-3xl font-semibold mb-4">
+            {roomData?.data?.name}
+          </h1>
           <p>Room No: {roomData?.data?.roomNo}</p>
           <p>Floor No: {roomData?.data?.floorNo}</p>
           <p>Capacity: {roomData?.data?.capacity} people</p>
