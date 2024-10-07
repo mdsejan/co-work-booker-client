@@ -15,6 +15,7 @@ const ManageRooms = () => {
   const [showUpdateRoomModal, setShowUpdateRoomModal] = useState(false);
   const [roomData, setRoomData] = useState({
     name: "",
+    image: "",
     roomNo: 0,
     floorNo: 0,
     capacity: 0,
@@ -39,6 +40,7 @@ const ManageRooms = () => {
 
     setRoomData({
       name: "",
+      image: "",
       roomNo: 0,
       floorNo: 0,
       capacity: 0,
@@ -74,6 +76,7 @@ const ManageRooms = () => {
     setSelectedRoomId(room._id);
     setRoomData({
       name: room.name,
+      image: room.image || "",
       roomNo: room.roomNo,
       floorNo: room.floorNo,
       capacity: room.capacity,
@@ -248,6 +251,22 @@ const ManageRooms = () => {
                 />
               </div>
               <div className="mb-4">
+                <label className="block mb-2">Image URL</label>
+                <input
+                  type="text"
+                  className="border w-full p-2"
+                  placeholder="https://example.com/room-image.jpg"
+                  value={roomData.image}
+                  onChange={(e) =>
+                    setRoomData((prev) => ({
+                      ...prev,
+                      image: e.target.value,
+                    }))
+                  }
+                  required
+                />
+              </div>
+              <div className="mb-4">
                 <label className="block mb-2">Room Number</label>
                 <input
                   type="number"
@@ -360,6 +379,21 @@ const ManageRooms = () => {
                     setRoomData((prev) => ({
                       ...prev,
                       name: e.target.value,
+                    }))
+                  }
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block mb-2">Image URL</label>
+                <input
+                  type="text"
+                  className="border w-full p-2"
+                  value={roomData.image}
+                  onChange={(e) =>
+                    setRoomData((prev) => ({
+                      ...prev,
+                      image: e.target.value,
                     }))
                   }
                   required
