@@ -23,8 +23,36 @@ const bookingApi = baseApi.injectEndpoints({
       }),
       providesTags: ["All-Booking"],
     }),
+
+    approveBooking: builder.mutation({
+      query: ({ bookingId, token, bookingData }) => ({
+        url: `/bookings/${bookingId}`,
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: bookingData,
+      }),
+      invalidatesTags: ["All-Booking", "Booking"],
+    }),
+
+    deleteBooking: builder.mutation({
+      query: ({ token, bookingId }) => ({
+        url: `/bookings/${bookingId}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["All-Booking"],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useBookingsQuery, useAllBookingsQuery } = bookingApi;
+export const {
+  useBookingsQuery,
+  useAllBookingsQuery,
+  useDeleteBookingMutation,
+  useApproveBookingMutation,
+} = bookingApi;
