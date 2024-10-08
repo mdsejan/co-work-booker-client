@@ -137,7 +137,7 @@ const MeetingRooms: React.FC = () => {
           {/* Clear Filters Button */}
           <button
             onClick={handleClearFilters}
-            className="w-full bg-gray-700 text-white p-2 rounded-md"
+            className="w-full bg-[#279CEB] hover:bg-[#1b87cf] text-white p-2 rounded-md"
           >
             Clear Filters
           </button>
