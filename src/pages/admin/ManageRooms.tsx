@@ -214,7 +214,7 @@ const ManageRooms = () => {
                     onClick={() => handleUpdateRoomBtn(room)}
                     className="bg-yellow-500 text-white px-3 py-1 rounded-md mr-2"
                   >
-                    Update
+                    Edit
                   </button>
                   <button
                     onClick={() => handleDeleteRoom(room._id)}
