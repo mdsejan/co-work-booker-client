@@ -9,13 +9,21 @@ import useDebounce from "@/hooks/useDebounceValue";
 
 const MeetingRooms: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [capacityFilter, setCapacityFilter] = useState<number | "">("");
+  const [capacityFilter, setCapacityFilter] = useState<string>("");
   const [priceSort, setPriceSort] = useState<"asc" | "desc" | "">("");
   const debounceValue = useDebounce(searchTerm);
 
   const { data: roomsData = [], isLoading } = useGetRoomsQuery({
     search: debounceValue,
-    minCapacity: capacityFilter !== "" ? capacityFilter : undefined,
+    minCapacity:
+      capacityFilter && capacityFilter.split("-")[0] !== ""
+        ? Number(capacityFilter.split("-")[0])
+        : undefined,
+    maxCapacity:
+      capacityFilter && capacityFilter.split("-")[1] !== ""
+        ? Number(capacityFilter.split("-")[1])
+        : undefined,
+
     sortPrice:
       priceSort === "asc"
         ? "priceAsc"
@@ -29,7 +37,7 @@ const MeetingRooms: React.FC = () => {
   };
 
   const handleCapacityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCapacityFilter(Number(e.target.value));
+    setCapacityFilter(e.target.value);
   };
 
   const handlePriceSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -59,7 +67,7 @@ const MeetingRooms: React.FC = () => {
             value={searchTerm}
             onChange={handleSearchChange}
             placeholder="Search by room name..."
-            className="w-full p-2 mb-4 border rounded-md"
+            className="w-full p-2 mb-4 border rounded-md focus:outline-none "
           />
 
           {/* Capacity Filter */}
@@ -69,10 +77,11 @@ const MeetingRooms: React.FC = () => {
             className="w-full p-2 mb-4 border rounded-md"
           >
             <option value="">Filter by capacity</option>
-            <option value="2">2 People</option>
-            <option value="4">4 People</option>
-            <option value="6">6 People</option>
-            <option value="8">8 People</option>
+            <option value="0-4">0-4 People</option>
+            <option value="4-8">4-8 People</option>
+            <option value="8-12">8-12 People</option>
+            <option value="12-20">12-20 People</option>
+            <option value="20+">20+ People</option>
           </select>
 
           {/* Price Sort */}
