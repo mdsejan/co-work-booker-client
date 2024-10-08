@@ -1,72 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 import { Room } from "@/types";
 import { useGetRoomsQuery } from "@/redux/features/room/RoomApi";
+import useDebounce from "@/hooks/useDebounceValue";
 
 const MeetingRooms: React.FC = () => {
-  const { data: roomsData = [], isLoading } = useGetRoomsQuery({});
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [capacityFilter, setCapacityFilter] = useState<number | "">("");
   const [priceSort, setPriceSort] = useState<"asc" | "desc" | "">("");
-  const [filteredRooms, setFilteredRooms] = useState<Room[]>(roomsData?.data);
+  const debounceValue = useDebounce(searchTerm);
 
-  useEffect(() => {
-    setFilteredRooms(roomsData?.data);
-  }, [roomsData?.data]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  // Handle search, filter, and sorting logic
-  const filterRooms = () => {
-    let rooms = roomsData;
-
-    // Filter by search term
-    if (searchTerm) {
-      rooms = rooms.filter((room: Room) =>
-        room.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    // Filter by capacity
-    if (capacityFilter) {
-      rooms = rooms.filter((room: Room) => room.capacity === capacityFilter);
-    }
-
-    // Sort by price
-    if (priceSort === "asc") {
-      rooms = rooms.sort((a: Room, b: Room) => a.pricePerSlot - b.pricePerSlot);
-    } else if (priceSort === "desc") {
-      rooms = rooms.sort((a: Room, b: Room) => b.pricePerSlot - a.pricePerSlot);
-    }
-
-    setFilteredRooms(rooms);
-  };
+  const { data: roomsData = [], isLoading } = useGetRoomsQuery({
+    search: debounceValue,
+    minCapacity: capacityFilter !== "" ? capacityFilter : undefined,
+    sortPrice:
+      priceSort === "asc"
+        ? "priceAsc"
+        : priceSort === "desc"
+        ? "priceDesc"
+        : undefined,
+  });
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-    filterRooms();
   };
 
   const handleCapacityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCapacityFilter(Number(e.target.value));
-    filterRooms();
   };
 
   const handlePriceSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPriceSort(e.target.value as "asc" | "desc" | "");
-    filterRooms();
   };
 
   const handleClearFilters = () => {
     setSearchTerm("");
     setCapacityFilter("");
     setPriceSort("");
-    setFilteredRooms(roomsData);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [debounceValue]);
 
   return (
     <div className="max-w-screen-2xl mx-auto px-4 py-8">
@@ -122,7 +100,7 @@ const MeetingRooms: React.FC = () => {
           {isLoading ? (
             <p>Loading rooms...</p>
           ) : (
-            filteredRooms?.map((room: Room) => (
+            roomsData?.data?.map((room: Room) => (
               <motion.div
                 key={room._id}
                 className="flex bg-white border rounded-lg p-4"

@@ -25,7 +25,6 @@ const ManageRooms = () => {
   });
   const [amenitiesInput, setAmenitiesInput] = useState("");
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
-
   const [deleteRoom] = useDeleteRoomMutation();
   const [createRoom] = useCreateRoomMutation();
   const [updateRoom] = useUpdateRoomMutation();
