@@ -10,18 +10,41 @@ import useDebounce from "@/hooks/useDebounceValue";
 const MeetingRooms: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [capacityFilter, setCapacityFilter] = useState<string>("");
+  const [priceFilter, setPriceFilter] = useState<string>("");
   const [priceSort, setPriceSort] = useState<"asc" | "desc" | "">("");
   const debounceValue = useDebounce(searchTerm);
 
   const { data: roomsData = [], isLoading } = useGetRoomsQuery({
     search: debounceValue,
+
+    // Handling capacity range
     minCapacity:
-      capacityFilter && capacityFilter.split("-")[0] !== ""
+      capacityFilter === "20+"
+        ? 20
+        : capacityFilter
         ? Number(capacityFilter.split("-")[0])
         : undefined,
+
     maxCapacity:
-      capacityFilter && capacityFilter.split("-")[1] !== ""
+      capacityFilter === "20+"
+        ? undefined
+        : capacityFilter.split("-")[1]
         ? Number(capacityFilter.split("-")[1])
+        : undefined,
+
+    // Handling price range
+    minPrice:
+      priceFilter === "5000+"
+        ? 5000
+        : priceFilter
+        ? Number(priceFilter.split("-")[0])
+        : undefined,
+
+    maxPrice:
+      priceFilter === "5000+"
+        ? undefined
+        : priceFilter.split("-")[1]
+        ? Number(priceFilter.split("-")[1])
         : undefined,
 
     sortPrice:
@@ -38,6 +61,10 @@ const MeetingRooms: React.FC = () => {
 
   const handleCapacityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCapacityFilter(e.target.value);
+  };
+
+  const handlePriceFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPriceFilter(e.target.value);
   };
 
   const handlePriceSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -82,6 +109,18 @@ const MeetingRooms: React.FC = () => {
             <option value="8-12">8-12 People</option>
             <option value="12-20">12-20 People</option>
             <option value="20+">20+ People</option>
+          </select>
+
+          {/* Price Range Filter */}
+          <select
+            value={priceFilter}
+            onChange={handlePriceFilterChange}
+            className="w-full p-2 mb-4 border rounded-md"
+          >
+            <option value="">Filter by price per slot</option>
+            <option value="0-2500">0-2500</option>
+            <option value="2500-5000">2500-5000</option>
+            <option value="5000+">5000+</option>
           </select>
 
           {/* Price Sort */}
