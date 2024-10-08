@@ -401,7 +401,7 @@ const ManageSlots = () => {
 
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300">
-          <thead className="bg-gray-100">
+          <thead className="bg-[#2499EF] text-white">
             <tr>
               <th className="border border-gray-300 px-4 py-2">Room</th>
               <th className="border border-gray-300 px-4 py-2">Date</th>
