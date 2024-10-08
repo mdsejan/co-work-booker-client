@@ -1,3 +1,4 @@
+import LoadingAnimation from "@/components/LoadingAnimation/LoadingAnimation";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import {
   useAllBookingsQuery,
@@ -99,7 +100,7 @@ const ManageBooking = () => {
     );
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingAnimation />;
   if (isError) return <div>Error loading bookings</div>;
 
   return (

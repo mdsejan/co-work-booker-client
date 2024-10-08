@@ -1,6 +1,6 @@
 export interface Room {
   _id: string;
-  image?: string;
+  image?: string | undefined;
   name: string;
   roomNo: number;
   floorNo: number;

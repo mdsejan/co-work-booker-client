@@ -1,3 +1,4 @@
+import LoadingAnimation from "@/components/LoadingAnimation/LoadingAnimation";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import {
   useCreateRoomMutation,
@@ -168,7 +169,7 @@ const ManageRooms = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <LoadingAnimation />;
   }
 
   if (error) {

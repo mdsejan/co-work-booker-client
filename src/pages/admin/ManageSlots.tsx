@@ -1,3 +1,4 @@
+import LoadingAnimation from "@/components/LoadingAnimation/LoadingAnimation";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import { useGetRoomsQuery } from "@/redux/features/room/RoomApi";
 import {
@@ -137,7 +138,7 @@ const ManageSlots = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingAnimation />;
   }
 
   if (error) {
