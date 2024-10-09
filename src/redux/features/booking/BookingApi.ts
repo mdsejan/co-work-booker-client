@@ -33,7 +33,7 @@ const bookingApi = baseApi.injectEndpoints({
         },
         body: bookingData,
       }),
-      invalidatesTags: ["All-Booking", "Booking"],
+      invalidatesTags: ["Booking", "All-Booking"],
     }),
 
     deleteBooking: builder.mutation({
@@ -44,7 +44,7 @@ const bookingApi = baseApi.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ["All-Booking"],
+      invalidatesTags: ["Booking", "All-Booking"],
     }),
   }),
   overrideExisting: false,

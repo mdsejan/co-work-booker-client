@@ -72,7 +72,7 @@ const RoomDetails = () => {
 
       {/* Book Now Button */}
       <motion.button
-        onClick={openBookingModal} // Open the booking modal on click
+        onClick={openBookingModal}
         className="mt-4 bg-[#14141E] text-white px-4 py-2 rounded-full flex items-center gap-2 group w-fit more-btn"
       >
         Book Now

@@ -18,8 +18,8 @@ interface BookingModalProps {
 }
 
 interface AvailableSlot {
-  id: string; // Slot ID
-  timeRange: string; // Time range
+  id: string;
+  timeRange: string;
 }
 
 const BookingModal: React.FC<BookingModalProps> = ({
@@ -61,7 +61,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
       date: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
       user: currentUser?.userId,
       room: roomId,
-      slotId: selectedSlotId,
+      slots: [selectedSlotId],
     };
     console.log("Booking Details: ", bookingDetails);
   };
@@ -125,6 +125,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
                     minDate={new Date()}
                     includeDates={formattedDates}
                     required
+                    placeholderText="Click to Select Date"
                     filterDate={(date) =>
                       formattedDates.some(
                         (availableDate) =>

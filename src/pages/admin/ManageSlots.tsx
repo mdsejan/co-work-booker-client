@@ -26,8 +26,6 @@ const ManageSlots = () => {
     isBooked: false,
   });
 
-  console.log(slotData);
-
   const [deleteSlot] = useDeleteSlotMutation();
   const [updateSlot] = useUpdateSlotMutation();
   const token = useSelector(useCurrentToken);
@@ -62,11 +60,11 @@ const ManageSlots = () => {
   const handleOpenUpdateModal = (slot: Slots) => {
     setSelectedSlotId(slot._id);
     setSlotData({
-      room: slot.room._id,
-      roomName: slot.room.name,
-      date: slot.date,
-      startTime: slot.startTime,
-      endTime: slot.endTime,
+      room: slot?.room?._id,
+      roomName: slot?.room?.name,
+      date: slot?.date,
+      startTime: slot?.startTime,
+      endTime: slot?.endTime,
       isBooked: false,
     });
     setIsUpdateModalOpen(true);
@@ -100,6 +98,14 @@ const ManageSlots = () => {
       return;
     }
 
+    const slotData = {
+      room,
+      date,
+      startTime,
+      endTime,
+      isBooked: false,
+    };
+
     try {
       await createSlot({ token, slotData }).unwrap();
       toast.success("Slot created successfully!", {
@@ -108,12 +114,13 @@ const ManageSlots = () => {
       });
       handleCloseModal();
     } catch (error) {
-      console.log(error);
       toast.error("Error creating slot", {
         id: toastId,
         duration: 2000,
       });
     }
+
+    setIsModalOpen(false);
   };
 
   const handleUpdateSlot = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -145,7 +152,7 @@ const ManageSlots = () => {
     }
 
     const filterSlotData = {
-      room: slotData.room,
+      room: slotData?.room,
       date: date,
       startTime: startTime,
       endTime: endTime,
@@ -415,18 +422,18 @@ const ManageSlots = () => {
           </thead>
           <tbody>
             {slotsData?.map((slot: Slots) => (
-              <tr key={slot._id}>
+              <tr key={slot?._id}>
                 <td className="border border-gray-300 px-4 py-2">
-                  {slot.room.name}
+                  {slot?.room?.name}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {slot.date}
+                  {slot?.date}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {slot.startTime}
+                  {slot?.startTime}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {slot.endTime}
+                  {slot?.endTime}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   <button
@@ -436,7 +443,7 @@ const ManageSlots = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDeleteSlot(slot._id)}
+                    onClick={() => handleDeleteSlot(slot?._id)}
                     className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                   >
                     Delete
