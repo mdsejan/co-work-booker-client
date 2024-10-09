@@ -116,7 +116,6 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="bg-white border-b sticky top-0 z-50">
-      {" "}
       {/* Add z-index and relative */}
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -128,7 +127,10 @@ const Navbar: React.FC = () => {
                 className="text-xl font-bold text-gray-800 hover:text-gray-600"
                 onClick={closeMenu}
               >
-                CoWorkBooker
+                <div className="flex justify-center items-center">
+                  <img src="/fav2.png" alt="logo" className="w-8 h-8" />
+                  <h1>CoWorkBooker</h1>
+                </div>
               </Link>
             </div>
             <div className="hidden md:flex space-x-8 ml-10">{navLinks}</div>
