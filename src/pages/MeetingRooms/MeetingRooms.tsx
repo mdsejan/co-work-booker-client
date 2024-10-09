@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Room } from "@/types";
 import { useGetRoomsQuery } from "@/redux/features/room/RoomApi";
 import useDebounce from "@/hooks/useDebounceValue";
+import LoadingAnimation from "@/components/LoadingAnimation/LoadingAnimation";
 
 const MeetingRooms: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -147,7 +148,7 @@ const MeetingRooms: React.FC = () => {
         {/* Right Column: Room Listings */}
         <div className="md:col-span-3 grid grid-cols-1 lg:grid-cols-2 gap-6">
           {isLoading ? (
-            <p>Loading rooms...</p>
+            <LoadingAnimation />
           ) : (
             roomsData?.data?.map((room: Room) => (
               <motion.div
