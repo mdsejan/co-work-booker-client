@@ -18,11 +18,18 @@ const availableTimeSlots = [
 ];
 
 interface BookingModalProps {
+  roomId: string;
+  dates?: string[];
   isOpen: boolean;
   onClose: () => void;
 }
 
-const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
+const BookingModal: React.FC<BookingModalProps> = ({
+  roomId,
+  dates,
+  isOpen,
+  onClose,
+}) => {
   const {
     register,
     handleSubmit,
@@ -30,6 +37,13 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   } = useForm<BookingFormData>();
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  // const formattedDates = dates?.map((date) => new Date(date));
+  const formattedDates =
+    Array.isArray(dates) && dates.length > 0
+      ? dates.map((date) => new Date(date))
+      : [];
+
+  const hasAvailableDates = formattedDates.length > 0;
 
   // Get current user data
   const currentUser = useSelector(selectCurrentUser);
@@ -37,10 +51,11 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const userData = data?.data;
 
   // form submission
-  const onSubmit = (formData: BookingFormData) => {
+  const onSubmit = () => {
     const bookingDetails = {
-      ...formData,
       date: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
+      user: currentUser?.userId,
+      room: roomId,
     };
     console.log("Booking Details: ", bookingDetails);
   };
@@ -70,12 +85,26 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                 <label className="block text-sm font-medium text-gray-700">
                   Select Date
                 </label>
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={(date) => setSelectedDate(date)}
-                  className="mt-1 block w-full px-4 py-2 border rounded-lg"
-                  minDate={new Date()}
-                />
+
+                {hasAvailableDates ? (
+                  <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => setSelectedDate(date)}
+                    className="mt-1 block w-full px-4 py-2 border rounded-lg"
+                    minDate={new Date()}
+                    includeDates={formattedDates}
+                    filterDate={(date) => {
+                      return formattedDates.some(
+                        (availableDate) =>
+                          date.toDateString() === availableDate.toDateString()
+                      );
+                    }}
+                  />
+                ) : (
+                  <p className="text-red-500 text-base font-medium mt-2">
+                    No available dates for booking.
+                  </p>
+                )}
 
                 {errors.date && (
                   <p className="text-red-500 text-sm">{errors.date.message}</p>

@@ -18,6 +18,13 @@ const SlotApi = baseApi.injectEndpoints({
       providesTags: ["AllSlots"],
     }),
 
+    availableDates: builder.query({
+      query: (roomId) => ({
+        url: `/slots/dates/${roomId}`,
+        method: "GET",
+      }),
+    }),
+
     createSlot: builder.mutation({
       query: ({ token, slotData }) => ({
         url: "/slots",
@@ -59,6 +66,7 @@ const SlotApi = baseApi.injectEndpoints({
 export const {
   useRoomSlotsQuery,
   useAllSlotsQuery,
+  useAvailableDatesQuery,
   useCreateSlotMutation,
   useDeleteSlotMutation,
   useUpdateSlotMutation,

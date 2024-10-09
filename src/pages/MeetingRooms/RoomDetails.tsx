@@ -6,10 +6,17 @@ import { useGetRoomByIdQuery } from "@/redux/api/api";
 import LoadingAnimation from "@/components/LoadingAnimation/LoadingAnimation";
 import ErrorLoadingData from "@/components/LoadingAnimation/ErrorLoadingData";
 import BookingModal from "@/components/room/BookingModal";
+import { useAvailableDatesQuery } from "@/redux/features/slots/SlotApi";
 
 const RoomDetails = () => {
   const { id } = useParams();
   const { data: roomData, error, isLoading } = useGetRoomByIdQuery(id);
+  const roomId = roomData?.data?._id;
+  const { data } = useAvailableDatesQuery(roomId);
+  const dates = data?.data;
+  console.log(roomId);
+
+  console.log(data, dates);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -78,7 +85,12 @@ const RoomDetails = () => {
       </motion.button>
 
       {/* Booking Modal */}
-      <BookingModal isOpen={isModalOpen} onClose={closeBookingModal} />
+      <BookingModal
+        roomId={roomId}
+        dates={dates}
+        isOpen={isModalOpen}
+        onClose={closeBookingModal}
+      />
     </div>
   );
 };
