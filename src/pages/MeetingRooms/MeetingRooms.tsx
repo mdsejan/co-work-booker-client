@@ -74,6 +74,7 @@ const MeetingRooms: React.FC = () => {
   const handleClearFilters = () => {
     setSearchTerm("");
     setCapacityFilter("");
+    setPriceFilter("");
     setPriceSort("");
   };
 
@@ -151,7 +152,7 @@ const MeetingRooms: React.FC = () => {
             roomsData?.data?.map((room: Room) => (
               <motion.div
                 key={room._id}
-                className="flex bg-white border rounded-lg p-4"
+                className="flex h-48 bg-white border rounded-lg p-4"
                 whileInView={{ opacity: 1, translateY: 0 }}
                 initial={{ opacity: 0, translateY: 20 }}
                 transition={{ duration: 0.5 }}
