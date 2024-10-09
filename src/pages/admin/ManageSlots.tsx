@@ -26,6 +26,8 @@ const ManageSlots = () => {
     isBooked: false,
   });
 
+  console.log(slotData);
+
   const [deleteSlot] = useDeleteSlotMutation();
   const [updateSlot] = useUpdateSlotMutation();
   const token = useSelector(useCurrentToken);
@@ -106,6 +108,7 @@ const ManageSlots = () => {
       });
       handleCloseModal();
     } catch (error) {
+      console.log(error);
       toast.error("Error creating slot", {
         id: toastId,
         duration: 2000,

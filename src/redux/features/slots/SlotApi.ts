@@ -3,8 +3,8 @@ import { baseApi } from "@/redux/api/api";
 const SlotApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     roomSlots: builder.query({
-      query: (id) => ({
-        url: `/slots/availability?roomId=${id}`,
+      query: ({ roomId, date }) => ({
+        url: `/slots/availability?date=${date}&roomId=${roomId}`,
         method: "GET",
       }),
       providesTags: ["RoomSlots"],
@@ -65,6 +65,7 @@ const SlotApi = baseApi.injectEndpoints({
 
 export const {
   useRoomSlotsQuery,
+  useLazyRoomSlotsQuery,
   useAllSlotsQuery,
   useAvailableDatesQuery,
   useCreateSlotMutation,

@@ -14,9 +14,6 @@ const RoomDetails = () => {
   const roomId = roomData?.data?._id;
   const { data } = useAvailableDatesQuery(roomId);
   const dates = data?.data;
-  console.log(roomId);
-
-  console.log(data, dates);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import DatePicker from "react-datepicker";
@@ -7,21 +7,19 @@ import { FiX } from "react-icons/fi";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useSelector } from "react-redux";
 import { useGetUserQuery } from "@/redux/features/auth/authApi";
-import { BookingFormData } from "@/types";
-
-const availableTimeSlots = [
-  "09:00 AM - 10:00 AM",
-  "10:00 AM - 11:00 AM",
-  "11:00 AM - 12:00 PM",
-  "01:00 PM - 02:00 PM",
-  "02:00 PM - 03:00 PM",
-];
+import { useLazyRoomSlotsQuery } from "@/redux/features/slots/SlotApi"; // Import the query
+import { BookingFormData, Slot } from "@/types";
 
 interface BookingModalProps {
   roomId: string;
   dates?: string[];
   isOpen: boolean;
   onClose: () => void;
+}
+
+interface AvailableSlot {
+  id: string; // Slot ID
+  timeRange: string; // Time range
 }
 
 const BookingModal: React.FC<BookingModalProps> = ({
@@ -35,14 +33,21 @@ const BookingModal: React.FC<BookingModalProps> = ({
     handleSubmit,
     formState: { errors },
   } = useForm<BookingFormData>();
+  const [selectedDate, setSelectedDate] = useState<Date | null>();
+  const [availableTimeSlots, setAvailableTimeSlots] = useState<AvailableSlot[]>(
+    []
+  );
+  const [selectedSlotId, setSelectedSlotId] = useState("");
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  // const formattedDates = dates?.map((date) => new Date(date));
+  // Lazy query to fetch available slots
+  const [triggerRoomSlots, { data: slotData, isLoading, error }] =
+    useLazyRoomSlotsQuery();
+
+  // Format provided dates into JS Date objects
   const formattedDates =
     Array.isArray(dates) && dates.length > 0
       ? dates.map((date) => new Date(date))
       : [];
-
   const hasAvailableDates = formattedDates.length > 0;
 
   // Get current user data
@@ -50,15 +55,42 @@ const BookingModal: React.FC<BookingModalProps> = ({
   const { data } = useGetUserQuery(currentUser?.userId);
   const userData = data?.data;
 
-  // form submission
+  // Form submission
   const onSubmit = () => {
     const bookingDetails = {
       date: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
       user: currentUser?.userId,
       room: roomId,
+      slotId: selectedSlotId,
     };
     console.log("Booking Details: ", bookingDetails);
   };
+
+  const handleSlotChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSlotId(event.target.value);
+  };
+
+  // Fetch available time slots when the date changes
+  useEffect(() => {
+    if (selectedDate && roomId) {
+      const formattedDate = selectedDate.toISOString().split("T")[0];
+      triggerRoomSlots({ roomId, date: formattedDate });
+    }
+  }, [selectedDate, roomId, triggerRoomSlots]);
+
+  // Update available time slots based on API response
+  useEffect(() => {
+    if (slotData?.data && !isLoading && !error) {
+      const slots = slotData.data
+        .filter((slot: Slot) => !slot.isBooked)
+        .map((slot: Slot) => ({
+          id: slot._id,
+          timeRange: `${slot.startTime} - ${slot.endTime}`,
+        }));
+
+      setAvailableTimeSlots(slots);
+    }
+  }, [slotData, isLoading, error]);
 
   return (
     <>
@@ -85,7 +117,6 @@ const BookingModal: React.FC<BookingModalProps> = ({
                 <label className="block text-sm font-medium text-gray-700">
                   Select Date
                 </label>
-
                 {hasAvailableDates ? (
                   <DatePicker
                     selected={selectedDate}
@@ -93,12 +124,13 @@ const BookingModal: React.FC<BookingModalProps> = ({
                     className="mt-1 block w-full px-4 py-2 border rounded-lg"
                     minDate={new Date()}
                     includeDates={formattedDates}
-                    filterDate={(date) => {
-                      return formattedDates.some(
+                    required
+                    filterDate={(date) =>
+                      formattedDates.some(
                         (availableDate) =>
                           date.toDateString() === availableDate.toDateString()
-                      );
-                    }}
+                      )
+                    }
                   />
                 ) : (
                   <p className="text-red-500 text-base font-medium mt-2">
@@ -120,19 +152,24 @@ const BookingModal: React.FC<BookingModalProps> = ({
                     required: "Please select a time slot",
                   })}
                   className="mt-1 block w-full px-4 py-2 border rounded-lg"
+                  onChange={handleSlotChange}
+                  value={selectedSlotId}
                 >
                   <option value="">Choose a time slot</option>
-                  {availableTimeSlots.map((slot, index) => (
-                    <option key={index} value={slot}>
-                      {slot}
+                  {availableTimeSlots.map((slot) => (
+                    <option key={slot?.id} value={slot?.id}>
+                      {slot?.timeRange}
                     </option>
                   ))}
                 </select>
+
                 {errors.timeSlot && (
                   <p className="text-red-500 text-sm">
                     {errors.timeSlot.message}
                   </p>
                 )}
+                {isLoading && <p className="text-blue-500">Loading slots...</p>}
+                {error && <p className="text-red-500">Failed to load slots.</p>}
               </div>
 
               <div>
@@ -163,9 +200,14 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
               <button
                 type="submit"
-                className="w-full bg-[#2499EF] hover:bg-[#0E73BE] text-white font-semibold py-3 rounded-lg"
+                disabled={isLoading || !selectedSlotId}
+                className={`w-full py-3 rounded-lg font-semibold ${
+                  selectedDate && selectedSlotId
+                    ? "bg-[#2499EF] hover:bg-[#0E73BE] text-white"
+                    : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                }`}
               >
-                Confirm Booking
+                Process to Checkout
               </button>
             </form>
           </div>
