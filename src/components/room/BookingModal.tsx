@@ -73,7 +73,11 @@ const BookingModal: React.FC<BookingModalProps> = ({
   // Fetch available time slots when the date changes
   useEffect(() => {
     if (selectedDate && roomId) {
-      const formattedDate = selectedDate.toISOString().split("T")[0];
+      const adjustedDate = new Date(
+        selectedDate.getTime() + 6 * 60 * 60 * 1000
+      );
+      const formattedDate = adjustedDate.toISOString().split("T")[0];
+
       triggerRoomSlots({ roomId, date: formattedDate });
     }
   }, [selectedDate, roomId, triggerRoomSlots]);
@@ -81,11 +85,11 @@ const BookingModal: React.FC<BookingModalProps> = ({
   // Update available time slots based on API response
   useEffect(() => {
     if (slotData?.data && !isLoading && !error) {
-      const slots = slotData.data
+      const slots = slotData?.data
         .filter((slot: Slot) => !slot.isBooked)
         .map((slot: Slot) => ({
-          id: slot._id,
-          timeRange: `${slot.startTime} - ${slot.endTime}`,
+          id: slot?._id,
+          timeRange: `${slot?.startTime} - ${slot?.endTime}`,
         }));
 
       setAvailableTimeSlots(slots);
@@ -127,9 +131,9 @@ const BookingModal: React.FC<BookingModalProps> = ({
                     required
                     placeholderText="Click to Select Date"
                     filterDate={(date) =>
-                      formattedDates.some(
+                      formattedDates?.some(
                         (availableDate) =>
-                          date.toDateString() === availableDate.toDateString()
+                          date?.toDateString() === availableDate?.toDateString()
                       )
                     }
                   />
@@ -139,8 +143,10 @@ const BookingModal: React.FC<BookingModalProps> = ({
                   </p>
                 )}
 
-                {errors.date && (
-                  <p className="text-red-500 text-sm">{errors.date.message}</p>
+                {errors?.date && (
+                  <p className="text-red-500 text-sm">
+                    {errors?.date?.message}
+                  </p>
                 )}
               </div>
 
@@ -157,14 +163,14 @@ const BookingModal: React.FC<BookingModalProps> = ({
                   value={selectedSlotId}
                 >
                   <option value="">Choose a time slot</option>
-                  {availableTimeSlots.map((slot) => (
+                  {availableTimeSlots?.map((slot) => (
                     <option key={slot?.id} value={slot?.id}>
                       {slot?.timeRange}
                     </option>
                   ))}
                 </select>
 
-                {errors.timeSlot && (
+                {errors?.timeSlot && (
                   <p className="text-red-500 text-sm">
                     {errors.timeSlot.message}
                   </p>
