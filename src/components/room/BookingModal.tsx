@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useGetUserQuery } from "@/redux/features/auth/authApi";
 import { useLazyRoomSlotsQuery } from "@/redux/features/slots/SlotApi"; // Import the query
 import { BookingFormData, Slot } from "@/types";
+import { useNavigate } from "react-router-dom";
 
 interface BookingModalProps {
   roomId: string;
@@ -38,6 +39,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
     []
   );
   const [selectedSlotId, setSelectedSlotId] = useState("");
+  const navigate = useNavigate();
 
   // Lazy query to fetch available slots
   const [triggerRoomSlots, { data: slotData, isLoading, error }] =
@@ -63,6 +65,8 @@ const BookingModal: React.FC<BookingModalProps> = ({
       room: roomId,
       slots: [selectedSlotId],
     };
+
+    navigate("/checkout");
     console.log("Booking Details: ", bookingDetails);
   };
 

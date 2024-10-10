@@ -10,6 +10,7 @@ import ManageSlots from "@/pages/admin/ManageSlots";
 import ContactUsPage from "@/pages/ContactUsPage";
 import Home from "@/pages/Home/Home";
 import LoginPage from "@/pages/LoginPage";
+import CheckoutPage from "@/pages/MeetingRooms/CheckoutPage";
 import MeetingRooms from "@/pages/MeetingRooms/MeetingRooms";
 import RoomDetails from "@/pages/MeetingRooms/RoomDetails";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
@@ -45,6 +46,15 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "/checkout",
+        element: (
+          <ProtectedRoute>
+            <CheckoutPage />
+          </ProtectedRoute>
+        ),
+      },
+
       {
         path: "/contact-us",
         element: <ContactUsPage />,
