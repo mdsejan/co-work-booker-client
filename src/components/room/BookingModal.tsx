@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 
 interface BookingModalProps {
   roomId: string;
+  roomName: string;
+  cost: number;
   dates?: string[];
   isOpen: boolean;
   onClose: () => void;
@@ -25,6 +27,8 @@ interface AvailableSlot {
 
 const BookingModal: React.FC<BookingModalProps> = ({
   roomId,
+  roomName,
+  cost,
   dates,
   isOpen,
   onClose,
@@ -38,7 +42,10 @@ const BookingModal: React.FC<BookingModalProps> = ({
   const [availableTimeSlots, setAvailableTimeSlots] = useState<AvailableSlot[]>(
     []
   );
-  const [selectedSlotId, setSelectedSlotId] = useState("");
+  const [selectedSlot, setSelectedSlot] = useState<{
+    id: string;
+    timeRange: string;
+  } | null>(null);
   const navigate = useNavigate();
 
   // Lazy query to fetch available slots
@@ -63,15 +70,37 @@ const BookingModal: React.FC<BookingModalProps> = ({
       date: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
       user: currentUser?.userId,
       room: roomId,
-      slots: [selectedSlotId],
+      slots: [selectedSlot?.id],
+    };
+
+    const bookingSummary = {
+      sRoom: roomName,
+      sDate: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
+      sTime: selectedSlot?.timeRange,
+      sCost: cost,
+      sName: userData?.name,
+      sEmail: userData?.email,
     };
 
     navigate("/checkout");
-    console.log("Booking Details: ", bookingDetails);
+    console.log("Booking Details: ", bookingDetails, bookingSummary);
   };
 
   const handleSlotChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedSlotId(event.target.value);
+    const selectedId = event.target.value;
+
+    // Find the selected slot object
+    const selectedSlot = availableTimeSlots?.find(
+      (slot) => slot.id === selectedId
+    );
+
+    // Update state with both id and timeRange
+    if (selectedSlot) {
+      setSelectedSlot({
+        id: selectedSlot.id,
+        timeRange: selectedSlot.timeRange,
+      });
+    }
   };
 
   // Fetch available time slots when the date changes
@@ -164,12 +193,12 @@ const BookingModal: React.FC<BookingModalProps> = ({
                   })}
                   className="mt-1 block w-full px-4 py-2 border rounded-lg"
                   onChange={handleSlotChange}
-                  value={selectedSlotId}
+                  value={selectedSlot?.id || ""}
                 >
                   <option value="">Choose a time slot</option>
                   {availableTimeSlots?.map((slot) => (
-                    <option key={slot?.id} value={slot?.id}>
-                      {slot?.timeRange}
+                    <option key={slot.id} value={slot.id}>
+                      {slot.timeRange}
                     </option>
                   ))}
                 </select>
@@ -211,9 +240,9 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
               <button
                 type="submit"
-                disabled={isLoading || !selectedSlotId}
+                disabled={isLoading || !selectedSlot}
                 className={`w-full py-3 rounded-lg font-semibold ${
-                  selectedDate && selectedSlotId
+                  selectedDate && selectedSlot
                     ? "bg-[#2499EF] hover:bg-[#0E73BE] text-white"
                     : "bg-gray-400 text-gray-200 cursor-not-allowed"
                 }`}

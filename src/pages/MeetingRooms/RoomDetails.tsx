@@ -12,6 +12,8 @@ const RoomDetails = () => {
   const { id } = useParams();
   const { data: roomData, error, isLoading } = useGetRoomByIdQuery(id);
   const roomId = roomData?.data?._id;
+  const roomName = roomData?.data?.name;
+  const cost = roomData?.data?.pricePerSlot;
   const { data } = useAvailableDatesQuery(roomId);
   const dates = data?.data;
 
@@ -85,6 +87,8 @@ const RoomDetails = () => {
       <BookingModal
         roomId={roomId}
         dates={dates}
+        roomName={roomName}
+        cost={cost}
         isOpen={isModalOpen}
         onClose={closeBookingModal}
       />

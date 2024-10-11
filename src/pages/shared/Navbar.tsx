@@ -224,7 +224,7 @@ const Navbar: React.FC = () => {
             {navLinks}
             {currentUser && currentUser.role === "admin" && (
               <Link
-                to="/admin-dashboard"
+                to="/admin/dashboard"
                 className="block text-gray-500 hover:text-gray-900"
                 onClick={closeMenu}
               >
