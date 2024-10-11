@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import { FiX } from "react-icons/fi";
 
 interface BookingDetails {
-  roomName: string;
-  date: string;
-  time: string;
-  cost: number;
-  user: string;
-  email: string;
+  sRoom: string;
+  sDate: string;
+  sTime: string;
+  sCost: number;
+  sName: string;
+  sEmail: string;
 }
 
 interface BookingConfirmationModalProps {
@@ -43,16 +43,16 @@ const BookingConfirmationModal: React.FC<BookingConfirmationModalProps> = ({
           Booking Confirmed!
         </h2>
         <p className="mb-2">
-          <strong>Room:</strong> {bookingDetails?.roomName}
+          <strong>Room:</strong> {bookingDetails?.sRoom}
         </p>
         <p className="mb-2">
-          <strong>Date:</strong> {bookingDetails?.date}
+          <strong>Date:</strong> {bookingDetails?.sDate}
         </p>
         <p className="mb-2">
-          <strong>Time:</strong> {bookingDetails?.time}
+          <strong>Time:</strong> {bookingDetails?.sTime}
         </p>
         <p className="mb-2">
-          <strong>Total Cost:</strong> ${bookingDetails?.cost}
+          <strong>Total Cost:</strong> ${bookingDetails?.sCost}
         </p>
 
         <p className="text-center mt-6 font-semibold">

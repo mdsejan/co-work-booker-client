@@ -82,7 +82,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
       sEmail: userData?.email,
     };
 
-    navigate("/checkout");
+    navigate("/checkout", { state: { bookingDetails, bookingSummary } });
     console.log("Booking Details: ", bookingDetails, bookingSummary);
   };
 

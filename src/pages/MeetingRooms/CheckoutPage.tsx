@@ -1,20 +1,14 @@
 import BookingConfirmationModal from "@/components/room/BookingConfirmationModal";
 import React, { useState } from "react"; // Modal component
+import { useLocation } from "react-router-dom";
 
 const CheckoutPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Mock Booking Data (Replace this with actual data from Redux or props)
-  const bookingSummary = {
-    roomName: "Conference Room A",
-    date: "2024-10-12",
-    time: "10:00 AM - 11:00 AM",
-    cost: 300,
-    user: "John Doe",
-    email: "johndoe@example.com",
-  };
+  const location = useLocation();
+  const { bookingDetails, bookingSummary } = location.state || {};
 
   const handleConfirmBooking = () => {
+    console.log(bookingDetails);
     setIsModalOpen(true); // Open confirmation modal
   };
 
@@ -27,7 +21,7 @@ const CheckoutPage: React.FC = () => {
           <tbody>
             <tr>
               <td className="font-semibold py-2">Room:</td>
-              <td className="py-2">{bookingSummary.roomName}</td>
+              <td className="py-2">{bookingSummary?.sRoom}</td>
             </tr>
             {/* Line row */}
             <tr>
@@ -37,7 +31,7 @@ const CheckoutPage: React.FC = () => {
             </tr>
             <tr>
               <td className="font-semibold py-2">Date:</td>
-              <td className="py-2">{bookingSummary.date}</td>
+              <td className="py-2">{bookingSummary?.sDate}</td>
             </tr>
             {/* Line row */}
             <tr>
@@ -47,7 +41,7 @@ const CheckoutPage: React.FC = () => {
             </tr>
             <tr>
               <td className="font-semibold py-2">Time:</td>
-              <td className="py-2">{bookingSummary.time}</td>
+              <td className="py-2">{bookingSummary?.sTime}</td>
             </tr>
             {/* Line row */}
             <tr>
@@ -57,7 +51,7 @@ const CheckoutPage: React.FC = () => {
             </tr>
             <tr>
               <td className="font-semibold py-2">Cost:</td>
-              <td className="py-2">${bookingSummary.cost}</td>
+              <td className="py-2">${bookingSummary?.sCost}</td>
             </tr>
             {/* Line row */}
             <tr>
@@ -67,7 +61,7 @@ const CheckoutPage: React.FC = () => {
             </tr>
             <tr>
               <td className="font-semibold py-2">Name:</td>
-              <td className="py-2">{bookingSummary.user}</td>
+              <td className="py-2">{bookingSummary?.sName}</td>
             </tr>
             {/* Line row */}
             <tr>
@@ -77,7 +71,7 @@ const CheckoutPage: React.FC = () => {
             </tr>
             <tr>
               <td className="font-semibold py-2">Email:</td>
-              <td className="py-2">{bookingSummary.email}</td>
+              <td className="py-2">{bookingSummary?.sEmail}</td>
             </tr>
           </tbody>
         </table>
