@@ -2,6 +2,28 @@ import { baseApi } from "@/redux/api/api";
 
 const bookingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    createBooking: builder.mutation({
+      query: ({ token, bookingData }) => ({
+        url: "/bookings",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: bookingData,
+      }),
+    }),
+
+    paymentIntent: builder.mutation({
+      query: ({ token, amount }) => ({
+        url: "/bookings/paymentintent",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: amount,
+      }),
+    }),
+
     bookings: builder.query({
       query: (token) => ({
         url: "/my-bookings",
@@ -51,6 +73,8 @@ const bookingApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useCreateBookingMutation,
+  usePaymentIntentMutation,
   useBookingsQuery,
   useAllBookingsQuery,
   useDeleteBookingMutation,
