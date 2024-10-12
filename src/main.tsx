@@ -7,12 +7,14 @@ import { persistor, store } from "./redux/store.ts";
 import router from "./router/index.tsx";
 import { Toaster } from "sonner";
 import { PersistGate } from "redux-persist/integration/react";
+import ScrollToTopButton from "./components/ScrollToTop.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <RouterProvider router={router} />
+        <ScrollToTopButton />
       </PersistGate>
       <Toaster position="bottom-right" richColors />
     </Provider>
