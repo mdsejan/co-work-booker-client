@@ -2,9 +2,11 @@ import BookingConfirmationModal from "@/components/room/BookingConfirmationModal
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-// Adjust the path based on your project structure
 import { useSelector } from "react-redux";
-import { usePaymentIntentMutation } from "@/redux/features/booking/BookingApi";
+import {
+  useCreateBookingMutation,
+  usePaymentIntentMutation,
+} from "@/redux/features/booking/BookingApi";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 
 const CheckoutPage: React.FC = () => {
@@ -13,16 +15,14 @@ const CheckoutPage: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const location = useLocation();
-  const { bookingDetails, bookingSummary } = location.state || {};
-  const amount = bookingSummary?.sCost;
-
-  console.log(bookingDetails, amount);
+  const { bookingData, bookingSummary } = location.state || {};
 
   const stripe = useStripe();
   const elements = useElements();
 
   const token = useSelector(useCurrentToken);
   const [paymentIntent] = usePaymentIntentMutation();
+  const [createBooking] = useCreateBookingMutation();
 
   const handleConfirmBooking = async () => {
     setPaymentProcessing(true);
@@ -46,8 +46,6 @@ const CheckoutPage: React.FC = () => {
         amount,
       });
 
-      console.log("Payment Intent Response:", data);
-
       if (data?.data?.clientSecret) {
         const cardElement = elements.getElement(CardElement);
         if (!cardElement) {
@@ -66,6 +64,14 @@ const CheckoutPage: React.FC = () => {
             error.message ?? "An unknown error occurred. Please try again."
           );
         } else if (stripePaymentIntent?.status === "succeeded") {
+          const bookingResponse = await createBooking({
+            token,
+            bookingData,
+          });
+
+          if (bookingResponse.error) {
+            throw new Error("Failed to create booking. Please try again.");
+          }
           setIsModalOpen(true);
         }
       } else {

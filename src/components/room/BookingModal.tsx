@@ -65,7 +65,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
   // Form submission
   const onSubmit = () => {
-    const bookingDetails = {
+    const bookingData = {
       date: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
       user: currentUser?.userId,
       room: roomId,
@@ -81,7 +81,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
       sEmail: userData?.email,
     };
 
-    navigate("/checkout", { state: { bookingDetails, bookingSummary } });
+    navigate("/checkout", { state: { bookingData, bookingSummary } });
     // console.log("Booking Details: ", bookingDetails, bookingSummary);
   };
 
