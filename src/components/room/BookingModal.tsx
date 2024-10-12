@@ -48,11 +48,10 @@ const BookingModal: React.FC<BookingModalProps> = ({
   } | null>(null);
   const navigate = useNavigate();
 
-  // Lazy query to fetch available slots
   const [triggerRoomSlots, { data: slotData, isLoading, error }] =
     useLazyRoomSlotsQuery();
 
-  // Format provided dates into JS Date objects
+  // Format provided dates
   const formattedDates =
     Array.isArray(dates) && dates.length > 0
       ? dates.map((date) => new Date(date))
@@ -83,18 +82,18 @@ const BookingModal: React.FC<BookingModalProps> = ({
     };
 
     navigate("/checkout", { state: { bookingDetails, bookingSummary } });
-    console.log("Booking Details: ", bookingDetails, bookingSummary);
+    // console.log("Booking Details: ", bookingDetails, bookingSummary);
   };
 
   const handleSlotChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = event.target.value;
 
-    // Find the selected slot object
+    // Find selected slot object
     const selectedSlot = availableTimeSlots?.find(
       (slot) => slot.id === selectedId
     );
 
-    // Update state with both id and timeRange
+    // Update state
     if (selectedSlot) {
       setSelectedSlot({
         id: selectedSlot.id,
@@ -103,7 +102,6 @@ const BookingModal: React.FC<BookingModalProps> = ({
     }
   };
 
-  // Fetch available time slots when the date changes
   useEffect(() => {
     if (selectedDate && roomId) {
       const adjustedDate = new Date(

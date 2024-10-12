@@ -26,12 +26,10 @@ const RoomDetails = () => {
   if (isLoading) return <LoadingAnimation />;
   if (error) return <ErrorLoadingData />;
 
-  // Function to handle modal open
   const openBookingModal = () => {
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
   const closeBookingModal = () => {
     setIsModalOpen(false);
   };
@@ -72,7 +70,6 @@ const RoomDetails = () => {
         </div>
       </div>
 
-      {/* Book Now Button */}
       <motion.button
         onClick={openBookingModal}
         className="mt-4 bg-[#14141E] text-white px-4 py-2 rounded-full flex items-center gap-2 group w-fit more-btn"

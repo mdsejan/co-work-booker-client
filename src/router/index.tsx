@@ -1,3 +1,4 @@
+import CheckoutPageWrapper from "@/components/Checkout/CheckoutPageWrapper";
 import AdminLayout from "@/components/Layouts/AdminLayout";
 import AdminProtectedRoute from "@/components/Layouts/AdminProtectedRoute";
 import MainLayout from "@/components/Layouts/MainLayouts";
@@ -10,7 +11,6 @@ import ManageSlots from "@/pages/admin/ManageSlots";
 import ContactUsPage from "@/pages/ContactUsPage";
 import Home from "@/pages/Home/Home";
 import LoginPage from "@/pages/LoginPage";
-import CheckoutPage from "@/pages/MeetingRooms/CheckoutPage";
 import MeetingRooms from "@/pages/MeetingRooms/MeetingRooms";
 import RoomDetails from "@/pages/MeetingRooms/RoomDetails";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
         path: "/checkout",
         element: (
           <ProtectedRoute>
-            <CheckoutPage />
+            <CheckoutPageWrapper />
           </ProtectedRoute>
         ),
       },

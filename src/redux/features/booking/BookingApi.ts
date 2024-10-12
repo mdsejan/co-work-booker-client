@@ -20,7 +20,7 @@ const bookingApi = baseApi.injectEndpoints({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: amount,
+        body: { amount },
       }),
     }),
 
