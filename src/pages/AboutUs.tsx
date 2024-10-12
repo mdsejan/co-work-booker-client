@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import team1 from "/src/assets/teamMember1.jpg";
-import team2 from "/src/assets/teamMember2.jpg";
-import team3 from "/src/assets/teamMember2.jpg";
-import team4 from "/src/assets/teamMember2.jpg";
-import team5 from "/src/assets/teamMember2.jpg";
 import herobg from "/src/assets/hero-bg.jpg";
 
 const AboutUs: React.FC = () => {
@@ -67,11 +62,36 @@ const AboutUs: React.FC = () => {
         </motion.h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-8">
           {[
-            { name: "Alice Johnson", role: "CEO & Founder", image: team1 },
-            { name: "David Smith", role: "CTO", image: team2 },
-            { name: "Emily Carter", role: "Lead Developer", image: team3 },
-            { name: "Michael Lee", role: "Product Manager", image: team4 },
-            { name: "Sarah Kim", role: "UX/UI Designer", image: team5 },
+            {
+              name: "Alice Johnson",
+              role: "CEO & Founder",
+              image:
+                "https://i.pinimg.com/564x/03/4e/69/034e69c955f7a5125c6e19c3ab1d9ce7.jpg",
+            },
+            {
+              name: "David Smith",
+              role: "CTO",
+              image:
+                "https://i.pinimg.com/564x/91/26/78/912678bb8ec990033758a665d707f4df.jpg",
+            },
+            {
+              name: "Emily Carter",
+              role: "Lead Developer",
+              image:
+                "https://i.pinimg.com/564x/01/b8/2f/01b82f5ebb6fef7f30705a06ad4cc3f5.jpg",
+            },
+            {
+              name: "Michael Lee",
+              role: "Product Manager",
+              image:
+                "https://i.pinimg.com/564x/2c/c9/6c/2cc96ca1a3950e16568695cf6d7ad51d.jpg",
+            },
+            {
+              name: "Sarah Kim",
+              role: "UX/UI Designer",
+              image:
+                "https://i.pinimg.com/564x/2a/1c/8e/2a1c8ece026ba585d73949a94163994d.jpg",
+            },
           ].map((member, index) => (
             <motion.div
               key={index}
@@ -83,7 +103,7 @@ const AboutUs: React.FC = () => {
               <img
                 src={member.image}
                 alt={member.name}
-                className="rounded-full w-32 h-32 mx-auto mb-4"
+                className="rounded-full object-cover w-32 h-32 mx-auto mb-4"
               />
               <h3 className="text-xl font-semibold text-gray-800">
                 {member.name}
