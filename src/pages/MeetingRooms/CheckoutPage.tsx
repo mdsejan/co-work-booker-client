@@ -1,5 +1,5 @@
 import BookingConfirmationModal from "@/components/room/BookingConfirmationModal";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useSelector } from "react-redux";
@@ -23,6 +23,10 @@ const CheckoutPage: React.FC = () => {
   const token = useSelector(useCurrentToken);
   const [paymentIntent] = usePaymentIntentMutation();
   const [createBooking] = useCreateBookingMutation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleConfirmBooking = async () => {
     setPaymentProcessing(true);

@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FiX } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 interface BookingDetails {
   sRoom: string;
@@ -40,7 +41,7 @@ const BookingConfirmationModal: React.FC<BookingConfirmationModalProps> = ({
         </button>
 
         <h2 className="text-2xl font-semibold mb-4 text-center">
-          Booking Confirmed!
+          Booked Successfully!!
         </h2>
         <p className="mb-2">
           <strong>Room:</strong> {bookingDetails?.sRoom}
@@ -58,6 +59,23 @@ const BookingConfirmationModal: React.FC<BookingConfirmationModalProps> = ({
         <p className="text-center mt-6 font-semibold">
           Thank you for your booking!
         </p>
+
+        <div className="flex justify-center mt-8">
+          <Link
+            to="/"
+            className="bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-800 mr-5"
+            onClick={onClose}
+          >
+            Back Home
+          </Link>
+          <Link
+            to="/my-bookings"
+            className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+            onClick={onClose}
+          >
+            My Bookings
+          </Link>
+        </div>
       </div>
     </motion.div>
   );
