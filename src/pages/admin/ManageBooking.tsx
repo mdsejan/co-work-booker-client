@@ -30,7 +30,7 @@ const ManageBooking = () => {
   const bookingData = { isConfirmed: "confirmed" };
 
   if (data?.success && !bookings.length) {
-    setBookings(data.data);
+    setBookings(data?.data);
   }
 
   const handleApprove = async (bookingId: string) => {
@@ -43,18 +43,21 @@ const ManageBooking = () => {
 
     try {
       await approveBooking({ bookingId, token, bookingData }).unwrap();
-
-      toast.success("Booking Approved successfully!", {
+      toast.success("Booking approved successfully!", {
         id: toastId,
         duration: 2000,
       });
+
+      setBookings((prev) =>
+        prev.map((booking) =>
+          booking._id === bookingId
+            ? { ...booking, isConfirmed: "confirmed" }
+            : booking
+        )
+      );
     } catch (error) {
       console.error("Server response:", error);
-
-      toast.error("Error Approve Booking", {
-        id: toastId,
-        duration: 2000,
-      });
+      toast.error("Error approving booking", { id: toastId, duration: 2000 });
     }
   };
 
@@ -66,6 +69,9 @@ const ManageBooking = () => {
         const res = await deleteBooking({ token, bookingId }).unwrap();
         if (res?.success) {
           toast.success(res?.message, { duration: 1300 });
+          setBookings((prev) =>
+            prev.filter((booking) => booking._id !== bookingId)
+          );
         }
       } catch (err) {
         console.error(err);
@@ -75,7 +81,7 @@ const ManageBooking = () => {
 
     toast(
       <div>
-        <p>Are you sure you want to delete this slot?</p>
+        <p>Are you sure you want to delete this Booking?</p>
         <div className="flex justify-end mt-4">
           <button
             onClick={() => {
