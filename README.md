@@ -1,6 +1,8 @@
 # CoWorkBooker
 
-### Live URL: &nbsp; &nbsp; [deploy.soon](https://#/)
+### Live URL: &nbsp; &nbsp; [coworkbooker.netlify.app](https://coworkbooker.netlify.app/)
+
+### Server Repo: &nbsp; &nbsp; [coworkbooker Server Repo](https://github.com/mdsejan/co-work-booker)
 
 ## Description:
 
